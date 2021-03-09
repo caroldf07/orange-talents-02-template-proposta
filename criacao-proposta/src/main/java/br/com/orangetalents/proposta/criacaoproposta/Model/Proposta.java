@@ -1,5 +1,7 @@
 package br.com.orangetalents.proposta.criacaoproposta.Model;
 
+import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +20,11 @@ public class Proposta {
     @Email
     private String email;
 
+    @CpfCnpj
+    @Column(unique = true)
+    @NotBlank
+    private String documento;
+
     @NotBlank
     private String nome;
 
@@ -29,8 +36,13 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
-    public Proposta(@NotBlank @Email String email, @NotBlank String nome, @NotNull Endereco endereco, @NotNull @Positive BigDecimal salario) {
+    public Proposta(@NotBlank @Email String email,
+                    @NotBlank String documento,
+                    @NotBlank String nome,
+                    @NotNull Endereco endereco,
+                    @NotNull @Positive BigDecimal salario) {
         this.email = email;
+        this.documento = documento;
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
@@ -42,18 +54,6 @@ public class Proposta {
     @Deprecated
     public Proposta() {
     }
-
-    @Override
-    public String toString() {
-        return "Proposta{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco=" + endereco +
-                ", salario=" + salario +
-                '}';
-    }
-
 
     public Long getId() {
         return id;

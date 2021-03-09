@@ -43,18 +43,11 @@ public class NovaPropostaRequest {
         this.salario = salario;
     }
 
-    @Override
-    public String toString() {
-        return "NovaPropostaRequest{" +
-                "documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco=" + endereco +
-                ", salario=" + salario +
-                '}';
+    public Proposta toModel() {
+        return new Proposta(this.email, this.documento, this.nome, this.endereco, this.salario);
     }
 
-    public Proposta toModel() {
-        return new Proposta(this.email, this.nome, this.endereco, this.salario);
+    public String getDocumento() {
+        return documento;
     }
 }
