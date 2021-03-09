@@ -30,7 +30,8 @@ public class PropostaController {
     private PropostaRepository propostaRepository;
 
     @PostMapping("/nova-proposta")
-    public ResponseEntity<?> criar(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<?> criar(@RequestBody @Valid NovaPropostaRequest novaPropostaRequest,
+                                   UriComponentsBuilder uriComponentsBuilder) {
         logger.info("Início da criação da proposta");
 
         Proposta proposta = novaPropostaRequest.toModel();
@@ -51,7 +52,9 @@ public class PropostaController {
 
             logger.warn("Proposta não foi criada");
 
-            return ResponseEntity.unprocessableEntity().body(new ApiExceptionGenerico(HttpStatus.UNPROCESSABLE_ENTITY, "Já existe proposta para esse documento"));
+            return ResponseEntity.unprocessableEntity()
+                    .body(new ApiExceptionGenerico(HttpStatus.UNPROCESSABLE_ENTITY,
+                            "Já existe proposta para esse documento"));
         }
 
     }
