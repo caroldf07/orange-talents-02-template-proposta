@@ -1,6 +1,9 @@
 package br.com.orangetalents.proposta.criacaoproposta.Model;
 
 import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
+import org.junit.jupiter.api.Assertions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,6 +14,9 @@ import java.math.BigDecimal;
 
 @Entity
 public class Proposta {
+
+    @Transient
+    private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +52,10 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+
+        logger.info("Verificando informações recebidas da proposta");
+        Assertions.assertNotNull(endereco, "Endereço veio inválido");
+
     }
 
     /*

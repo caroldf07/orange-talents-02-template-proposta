@@ -2,12 +2,9 @@ package br.com.orangetalents.proposta.criacaoproposta.Model;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 
-@Embeddable
-public class Endereco {
-
+public class EnderecoRequest {
     @Length(max = 2)
     @NotBlank
     private String UF;
@@ -21,21 +18,17 @@ public class Endereco {
     @NotBlank
     private String complemento;
 
-    public Endereco(@Length(max = 2) @NotBlank String UF,
-                    @NotBlank String cidade,
-                    @NotBlank String logradouro,
-                    @NotBlank String complemento) {
-        this.UF = UF.toUpperCase();
+    public EnderecoRequest(@Length(max = 2) @NotBlank String UF,
+                           @NotBlank String cidade,
+                           @NotBlank String logradouro,
+                           @NotBlank String complemento) {
+        this.UF = UF;
         this.cidade = cidade;
         this.logradouro = logradouro;
         this.complemento = complemento;
     }
 
-    /*
-     * Criado para o hibernate
-     * */
-    @Deprecated
-    public Endereco() {
+    public Endereco toModel() {
+        return new Endereco(this.UF, this.cidade, this.logradouro, this.complemento);
     }
-
 }

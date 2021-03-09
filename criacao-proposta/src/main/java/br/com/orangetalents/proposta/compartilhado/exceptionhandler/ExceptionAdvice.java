@@ -3,9 +3,11 @@ package br.com.orangetalents.proposta.compartilhado.exceptionhandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
@@ -39,5 +41,13 @@ public class ExceptionAdvice {
 
         ExceptionPadronizado exceptionPadronizado = new ExceptionPadronizado(mensagens);
         return ResponseEntity.status(apiExceptionGenerico.getHttpStatus()).body(exceptionPadronizado);
+    }
+
+    /*
+     * Acessar as informações de Endereço da Proposta
+     * */
+    @InitBinder
+    private void initDirectFieldAccess(DataBinder dataBinder) {
+        dataBinder.initDirectFieldAccess();
     }
 }

@@ -2,7 +2,6 @@ package br.com.orangetalents.proposta.criacaoproposta.Model;
 
 import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
 
-import javax.persistence.Embedded;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -24,8 +23,8 @@ public class NovaPropostaRequest {
     private String nome;
 
     @NotNull
-    @Embedded
-    private Endereco endereco;
+    @Valid
+    private EnderecoRequest endereco;
 
     @NotNull
     @Positive
@@ -34,7 +33,7 @@ public class NovaPropostaRequest {
     public NovaPropostaRequest(@NotNull String documento,
                                @NotBlank @Email String email,
                                @NotBlank String nome,
-                               @NotNull @Valid Endereco endereco,
+                               @NotNull @Valid EnderecoRequest endereco,
                                @NotNull @Positive BigDecimal salario) {
         this.documento = documento;
         this.email = email;
@@ -44,7 +43,8 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toModel() {
-        return new Proposta(this.email, this.documento, this.nome, this.endereco, this.salario);
+        Endereco endereco = this.endereco.toModel();
+        return new Proposta(this.email, this.documento, this.nome, endereco, this.salario);
     }
 
     public String getDocumento() {
