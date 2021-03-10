@@ -1,6 +1,7 @@
 package br.com.orangetalents.proposta.criacaoproposta.Model;
 
-import br.com.orangetalents.proposta.analisecartao.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
@@ -43,6 +44,9 @@ public class Proposta {
     @Positive
     private BigDecimal salario;
 
+    @Enumerated(EnumType.STRING)
+    private StatusProposta statusProposta;
+
 
     public Proposta(@NotBlank @Email String email,
                     @NotBlank String documento,
@@ -79,7 +83,16 @@ public class Proposta {
         return nome;
     }
 
-    public AnaliseClienteRequest paraAnaliseCartao() {
-        return new AnaliseClienteRequest(getDocumento(), getNome(), getId().toString());
+
+    public AnaliseClienteRequest fromModelToRequest() {
+        return new AnaliseClienteRequest(this.getDocumento(),
+                this.getNome(), this.getId().toString());
+    }
+
+    /*
+     * Retorno do resultado da análise
+     * */
+    public void resultadoAnalise(AnaliseClienteResponse analiseClienteResponse) {
+        this.statusProposta = analiseClienteResponse.getStatusProposta();
     }
 }

@@ -1,6 +1,5 @@
 package br.com.orangetalents.proposta.criacaoproposta.Controller;
 
-import br.com.orangetalents.proposta.analisecartao.AnaliseCliente;
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
 import br.com.orangetalents.proposta.criacaoproposta.Model.NovaPropostaRequest;
 import br.com.orangetalents.proposta.criacaoproposta.Model.Proposta;
@@ -18,18 +17,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-//carga de 6
+//carga de 7
 @RestController
 @RequestMapping("/propostas")
 public class PropostaController {
 
     //1
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
-
     //1
     @Autowired
-    private AnaliseCliente analiseCliente;
-
+    ResultadoAnalise analise;
     //1
     @Autowired
     private PropostaRepository propostaRepository;
@@ -43,29 +40,28 @@ public class PropostaController {
         Proposta proposta = novaPropostaRequest.toModel();
 
         //1
-        if (!propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento())) {
-
-            propostaRepository.save(proposta);
-
-            logger.info("Proposta criada com sucesso, id: " + proposta.getId());
-
-            analiseCliente.analiseLiberacaoCartao(proposta.paraAnaliseCartao());
-
-            return ResponseEntity.created(uriComponentsBuilder
-                    .path("/propostas/{id}")
-                    .buildAndExpand(proposta.getId())
-                    .toUri())
-                    .body(proposta);
-
-        } else {
+        if (propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento())) {
 
             logger.warn("Proposta não foi criada");
 
             return ResponseEntity.unprocessableEntity()
                     .body(new ApiExceptionGenerico(HttpStatus.UNPROCESSABLE_ENTITY,
                             "Já existe proposta para esse documento"));
+
         }
+        propostaRepository.save(proposta);
+
+        logger.info("Proposta criada com sucesso, id: " + proposta.getId());
+
+        analise.resultadoAnalise(proposta);
+
+        return ResponseEntity.created(uriComponentsBuilder
+                .path("/propostas/{id}")
+                .buildAndExpand(proposta.getId())
+                .toUri())
+                .build();
 
     }
+
 
 }
