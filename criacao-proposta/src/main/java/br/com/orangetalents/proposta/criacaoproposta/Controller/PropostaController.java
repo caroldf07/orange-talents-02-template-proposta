@@ -1,5 +1,6 @@
 package br.com.orangetalents.proposta.criacaoproposta.Controller;
 
+import br.com.orangetalents.proposta.analisecartao.AnaliseCliente;
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
 import br.com.orangetalents.proposta.criacaoproposta.Model.NovaPropostaRequest;
 import br.com.orangetalents.proposta.criacaoproposta.Model.Proposta;
@@ -27,6 +28,10 @@ public class PropostaController {
 
     //1
     @Autowired
+    private AnaliseCliente analiseCliente;
+
+    //1
+    @Autowired
     private PropostaRepository propostaRepository;
 
     @PostMapping("/nova-proposta")
@@ -34,13 +39,17 @@ public class PropostaController {
                                    UriComponentsBuilder uriComponentsBuilder) {
         logger.info("Início da criação da proposta");
 
+        //1
         Proposta proposta = novaPropostaRequest.toModel();
 
+        //1
         if (!propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento())) {
 
             propostaRepository.save(proposta);
 
             logger.info("Proposta criada com sucesso, id: " + proposta.getId());
+
+            analiseCliente.analiseLiberacaoCartao(proposta.paraAnaliseCartao());
 
             return ResponseEntity.created(uriComponentsBuilder
                     .path("/propostas/{id}")
