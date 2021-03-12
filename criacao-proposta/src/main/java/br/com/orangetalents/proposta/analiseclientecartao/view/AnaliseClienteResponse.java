@@ -43,6 +43,13 @@ public class AnaliseClienteResponse {
         Assertions.assertNotNull(resultadoSolicitacao, "Houve no retorno da requisição da análise");
     }
 
+    public AnaliseClienteResponse(StatusProposta statusProposta) {
+        this.statusProposta = statusProposta;
+    }
+
+    /*
+     * Conversão do sistema externo para o nosso
+     * */
     public StatusProposta getStatusProposta() {
         if (resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO) {
             statusProposta = StatusProposta.ELEGIVEL;

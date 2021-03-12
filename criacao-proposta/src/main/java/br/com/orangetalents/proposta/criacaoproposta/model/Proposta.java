@@ -109,4 +109,8 @@ public class Proposta {
         this.cartao = cartao.getId();
         return this.cartao;
     }
+
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
+    }
 }
