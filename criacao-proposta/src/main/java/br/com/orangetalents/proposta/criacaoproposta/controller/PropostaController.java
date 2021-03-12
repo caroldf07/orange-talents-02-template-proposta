@@ -10,20 +10,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 //carga de 7
 @RestController
 @RequestMapping("/propostas")
 public class PropostaController {
 
-    //1
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
     //1
     @Autowired
@@ -64,8 +61,22 @@ public class PropostaController {
                 .buildAndExpand(proposta.getId())
                 .toUri())
                 .build();
-
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> consultar(@PathVariable("id") Long id) {
+        logger.info("Consultando proposta");
+
+        Optional<Proposta> proposta = propostaRepository.findById(id);
+
+        //1
+        if (proposta.isPresent()) {
+            Assertions.assertNotNull(proposta, "Bug ao consultar proposta");
+            logger.info("Proposta encontrada");
+            return ResponseEntity.ok(proposta.get().fromModelToPropostaConsulta());
+        }
+        logger.warn("Proposta não encontrada");
+        return ResponseEntity.notFound().build();
+    }
 
 }

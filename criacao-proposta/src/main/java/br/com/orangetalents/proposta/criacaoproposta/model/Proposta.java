@@ -3,6 +3,7 @@ package br.com.orangetalents.proposta.criacaoproposta.model;
 import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteRequest;
 import br.com.orangetalents.proposta.analiseclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.criacaoproposta.validacao.CpfCnpj;
+import br.com.orangetalents.proposta.criacaoproposta.view.PropostaConsultaResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
@@ -112,5 +113,9 @@ public class Proposta {
 
     public StatusProposta getStatusProposta() {
         return statusProposta;
+    }
+
+    public PropostaConsultaResponse fromModelToPropostaConsulta() {
+        return new PropostaConsultaResponse(this.statusProposta);
     }
 }
