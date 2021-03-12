@@ -1,7 +1,7 @@
-package br.com.orangetalents.proposta.criacaoproposta.Controller;
+package br.com.orangetalents.proposta.criacaoproposta.controller;
 
-import br.com.orangetalents.proposta.criacaoproposta.Model.Endereco;
-import br.com.orangetalents.proposta.criacaoproposta.Model.Proposta;
+import br.com.orangetalents.proposta.criacaoproposta.model.Endereco;
+import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

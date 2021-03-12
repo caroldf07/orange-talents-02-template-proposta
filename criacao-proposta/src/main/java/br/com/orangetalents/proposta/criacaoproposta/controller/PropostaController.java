@@ -1,9 +1,10 @@
-package br.com.orangetalents.proposta.criacaoproposta.Controller;
+package br.com.orangetalents.proposta.criacaoproposta.controller;
 
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
-import br.com.orangetalents.proposta.criacaoproposta.Model.NovaPropostaRequest;
-import br.com.orangetalents.proposta.criacaoproposta.Model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.Repository.PropostaRepository;
+import br.com.orangetalents.proposta.criacaoproposta.model.NovaPropostaRequest;
+import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
+import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
+import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PropostaController {
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
     //1
     @Autowired
-    ResultadoAnalise analise;
+    private ResultadoAnalise analise;
     //1
     @Autowired
     private PropostaRepository propostaRepository;
@@ -43,6 +44,9 @@ public class PropostaController {
         if (propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento())) {
 
             logger.warn("Proposta não foi criada");
+
+            Assertions.assertTrue(propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento()),
+                    "Proposta que ainda não existe caiu no fluxo errado");
 
             return ResponseEntity.unprocessableEntity()
                     .body(new ApiExceptionGenerico(HttpStatus.UNPROCESSABLE_ENTITY,

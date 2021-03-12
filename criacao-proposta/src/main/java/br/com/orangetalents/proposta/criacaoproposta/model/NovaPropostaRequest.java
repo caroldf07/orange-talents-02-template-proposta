@@ -1,6 +1,6 @@
-package br.com.orangetalents.proposta.criacaoproposta.Model;
+package br.com.orangetalents.proposta.criacaoproposta.model;
 
-import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
+import br.com.orangetalents.proposta.criacaoproposta.validacao.CpfCnpj;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -43,8 +43,7 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toModel() {
-        Endereco endereco = this.endereco.toModel();
-        return new Proposta(this.email, this.documento, this.nome, endereco, this.salario);
+        return new Proposta(this.email, this.documento, this.nome, this.endereco.toModel(), this.salario);
     }
 
     public String getDocumento() {

@@ -1,6 +1,7 @@
 package br.com.orangetalents.proposta.analiseclientecartao;
 
-import br.com.orangetalents.proposta.criacaoproposta.Model.StatusProposta;
+import br.com.orangetalents.proposta.analiseclientecartao.view.AnaliseClienteResponse;
+import br.com.orangetalents.proposta.criacaoproposta.model.StatusProposta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

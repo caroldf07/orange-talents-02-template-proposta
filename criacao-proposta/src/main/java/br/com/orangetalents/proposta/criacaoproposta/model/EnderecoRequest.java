@@ -1,4 +1,4 @@
-package br.com.orangetalents.proposta.criacaoproposta.Model;
+package br.com.orangetalents.proposta.criacaoproposta.model;
 
 import org.hibernate.validator.constraints.Length;
 

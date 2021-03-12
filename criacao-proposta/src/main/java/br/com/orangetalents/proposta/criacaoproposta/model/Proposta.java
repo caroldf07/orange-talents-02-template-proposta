@@ -1,13 +1,15 @@
-package br.com.orangetalents.proposta.criacaoproposta.Model;
+package br.com.orangetalents.proposta.criacaoproposta.model;
 
 import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteRequest;
-import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteResponse;
-import br.com.orangetalents.proposta.criacaoproposta.Validacao.CpfCnpj;
+import br.com.orangetalents.proposta.analiseclientecartao.view.AnaliseClienteResponse;
+import br.com.orangetalents.proposta.criacaoproposta.validacao.CpfCnpj;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,6 +49,9 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
 
+    @Column(name = "cartao")
+    private String cartao;
+
 
     public Proposta(@NotBlank @Email String email,
                     @NotBlank String documento,
@@ -83,8 +88,12 @@ public class Proposta {
         return nome;
     }
 
+    public String getCartao() {
+        return cartao;
+    }
 
     public AnaliseClienteRequest fromModelToRequest() {
+        logger.info("Preparando cliente para envio");
         return new AnaliseClienteRequest(this.getDocumento(),
                 this.getNome(), this.getId().toString());
     }
@@ -92,7 +101,12 @@ public class Proposta {
     /*
      * Retorno do resultado da análise
      * */
-    public void resultadoAnalise(AnaliseClienteResponse analiseClienteResponse) {
+    public void resultadoAnalise(@Valid AnaliseClienteResponse analiseClienteResponse) {
         this.statusProposta = analiseClienteResponse.getStatusProposta();
+    }
+
+    public String cartaoCriado(@Valid Cartao cartao) {
+        this.cartao = cartao.getId();
+        return this.cartao;
     }
 }
