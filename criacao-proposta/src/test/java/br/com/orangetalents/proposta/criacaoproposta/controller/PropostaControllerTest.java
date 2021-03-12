@@ -55,10 +55,7 @@ class PropostaControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
                         .status()
-                        .isCreated())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/propostas/1"));
-
-
+                        .isCreated());
     }
 
     @Test
