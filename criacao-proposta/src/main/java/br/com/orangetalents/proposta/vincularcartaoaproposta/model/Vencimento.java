@@ -1,10 +1,10 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
+@Embeddable
 public class Vencimento {
 
     @Id
@@ -18,5 +18,10 @@ public class Vencimento {
         this.dataDeCriacao = dataDeCriacao;
     }
 
-
+    /*
+     * Criado por conta do hibernate
+     * */
+    @Deprecated
+    public Vencimento() {
+    }
 }

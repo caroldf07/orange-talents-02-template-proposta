@@ -1,5 +1,6 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
+import br.com.orangetalents.proposta.criacaobiometria.model.Biometria;
 import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
 import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.*;
@@ -41,12 +42,14 @@ public class Cartao {
 
     private BigDecimal limite;
 
-    @OneToOne
+    @Embedded
     private Vencimento vencimento;
 
     @OneToOne
-    @JoinColumn(name = "propostaId")
-    private Proposta Proposta;
+    private Proposta proposta;
+
+    @OneToMany(mappedBy = "cartao")
+    private Set<Biometria> biometrias = new HashSet<>();
 
     public Cartao(String id, LocalDateTime emitidoEm,
                   String titular, Set<BloqueioResponse> bloqueios,
@@ -65,7 +68,18 @@ public class Cartao {
         Assertions.assertNotNull(id, "Bug na criação do cartão");
     }
 
+    /*
+     * Criado por conta do hibernate
+     * */
+    @Deprecated
+    public Cartao() {
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void propostaCriada(Proposta proposta) {
+        this.proposta = proposta;
     }
 }

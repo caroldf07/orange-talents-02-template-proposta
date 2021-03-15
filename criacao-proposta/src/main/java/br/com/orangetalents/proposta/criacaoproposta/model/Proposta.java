@@ -50,8 +50,8 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
 
-    @Column(name = "cartao")
-    private String cartao;
+    @OneToOne
+    private Cartao cartao;
 
 
     public Proposta(@NotBlank @Email String email,
@@ -89,7 +89,7 @@ public class Proposta {
         return nome;
     }
 
-    public String getCartao() {
+    public Cartao getCartao() {
         return cartao;
     }
 
@@ -106,16 +106,15 @@ public class Proposta {
         this.statusProposta = analiseClienteResponse.getStatusProposta();
     }
 
-    public String cartaoCriado(@Valid Cartao cartao) {
-        this.cartao = cartao.getId();
-        return this.cartao;
-    }
-
     public StatusProposta getStatusProposta() {
         return statusProposta;
     }
 
     public PropostaConsultaResponse fromModelToPropostaConsulta() {
         return new PropostaConsultaResponse(this.statusProposta);
+    }
+
+    public void cartaoCriado(@Valid Cartao cartao) {
+        this.cartao = cartao;
     }
 }
