@@ -1,7 +1,7 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.service;
 
-import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.controller.CartaoResource;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.repository.CartaoRepository;

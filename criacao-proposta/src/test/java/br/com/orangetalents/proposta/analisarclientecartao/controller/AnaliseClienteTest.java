@@ -1,4 +1,4 @@
-package br.com.orangetalents.proposta.vincularcartaoaproposta.controller;
+package br.com.orangetalents.proposta.analisarclientecartao.controller;
 
 import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -17,23 +17,23 @@ import java.io.IOException;
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
-@ContextConfiguration(classes = {CartaoResourceTestConfiguration.class})
-class CartaoResourceTest {
+@ContextConfiguration(classes = {AnaliseClienteTestConfiguration.class})
+class AnaliseClienteTest {
+
     @Autowired
-    private WireMockServer mockSistemaCartao;
+    private WireMockServer mockSistemaAnaliseCliente;
     @Autowired
-    private CartaoResource cartaoResource;
+    private AnaliseCliente analiseCliente;
 
 
     @BeforeEach
     void setUp() throws IOException {
-        CartaoResourceTestMock.setUpCartaoResourceMockResponse(mockSistemaCartao);
+        AnaliseClienteTestMock.setUpAnaliseClienteMockResponse(mockSistemaAnaliseCliente);
     }
 
     @Test
     @DisplayName("Deve retornar uma resposta")
-    void liberaCartao() {
-        Assertions.assertNotNull(cartaoResource.liberaCartao(
-                new AnaliseClienteRequest("08588487080", "John", "1")));
+    void analiseLiberacaoCartao() {
+        Assertions.assertNotNull(analiseCliente.analiseLiberacaoCartao(new AnaliseClienteRequest("08588487080", "John", "1")));
     }
 }

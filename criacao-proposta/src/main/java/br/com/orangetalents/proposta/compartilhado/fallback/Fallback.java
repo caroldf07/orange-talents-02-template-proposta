@@ -1,12 +1,12 @@
 package br.com.orangetalents.proposta.compartilhado.fallback;
 
-import br.com.orangetalents.proposta.analiseclientecartao.AnaliseClienteRequest;
-import br.com.orangetalents.proposta.analiseclientecartao.controller.AnaliseCliente;
-import br.com.orangetalents.proposta.analiseclientecartao.view.AnaliseClienteResponse;
+import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analisarclientecartao.controller.AnaliseCliente;
+import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
-import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.model.StatusProposta;
-import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
+import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.controller.CartaoResource;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CartaoResponse;
 import org.springframework.beans.factory.annotation.Autowired;

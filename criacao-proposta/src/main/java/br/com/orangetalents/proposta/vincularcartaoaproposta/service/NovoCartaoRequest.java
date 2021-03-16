@@ -1,8 +1,8 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.service;
 
-import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.model.StatusProposta;
-import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
+import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

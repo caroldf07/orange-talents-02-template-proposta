@@ -1,8 +1,8 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
-import br.com.orangetalents.proposta.criacaobiometria.model.Biometria;
-import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.repository.PropostaRepository;
+import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.*;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +81,9 @@ public class Cartao {
 
     public void propostaCriada(Proposta proposta) {
         this.proposta = proposta;
+    }
+
+    public Set<Bloqueio> getBloqueios() {
+        return bloqueios;
     }
 }

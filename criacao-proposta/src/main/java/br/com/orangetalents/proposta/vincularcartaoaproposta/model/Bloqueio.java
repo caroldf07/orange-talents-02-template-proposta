@@ -3,8 +3,12 @@ package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Bloqueio {
@@ -16,12 +20,25 @@ public class Bloqueio {
     private boolean ativo;
     @ManyToOne
     private Cartao cartao;
+    private String ipCliente;
+    private String userAgent;
 
     public Bloqueio(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
         this.id = id;
         this.bloqueadoEm = bloqueadoEm;
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
+    }
+
+    public Bloqueio(@Valid @NotNull Cartao cartao,
+                    @NotBlank String ipCliente,
+                    @NotBlank String userAgent) {
+        this.id = UUID.randomUUID().toString();
+        this.bloqueadoEm = LocalDateTime.now();
+        this.sistemaResponsavel = "api-carol";
+        this.cartao = cartao;
+        this.ipCliente = ipCliente;
+        this.userAgent = userAgent;
     }
 
     @Override

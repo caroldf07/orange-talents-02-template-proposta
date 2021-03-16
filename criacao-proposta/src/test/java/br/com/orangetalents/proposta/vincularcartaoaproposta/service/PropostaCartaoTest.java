@@ -1,9 +1,9 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.service;
 
-import br.com.orangetalents.proposta.analiseclientecartao.view.AnaliseClienteResponse;
-import br.com.orangetalents.proposta.criacaoproposta.model.Endereco;
-import br.com.orangetalents.proposta.criacaoproposta.model.Proposta;
-import br.com.orangetalents.proposta.criacaoproposta.model.StatusProposta;
+import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
+import br.com.orangetalents.proposta.criarproposta.model.Endereco;
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

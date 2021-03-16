@@ -1,6 +1,6 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.view;
 
-import br.com.orangetalents.proposta.criacaoproposta.controller.PropostaController;
+import br.com.orangetalents.proposta.criarproposta.controller.PropostaController;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.CarteiraDigital;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.slf4j.Logger;
