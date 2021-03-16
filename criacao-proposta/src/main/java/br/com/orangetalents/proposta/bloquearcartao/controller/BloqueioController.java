@@ -1,14 +1,17 @@
 package br.com.orangetalents.proposta.bloquearcartao.controller;
 
 
+import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.controller.NovaBiometriaController;
 import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Bloqueio;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.model.StatusCartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -22,7 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 
-//Carga de 5
+//Carga de 6
 @RestController
 @RequestMapping("/bloqueios")
 public class BloqueioController implements SelecionaCartao {
@@ -32,6 +35,9 @@ public class BloqueioController implements SelecionaCartao {
     //1
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private BloqueioSistemaExterno bloqueioSistemaExterno;
 
     @Override
     @PostMapping
@@ -71,19 +77,23 @@ public class BloqueioController implements SelecionaCartao {
         Cartao cartao = em.find(Cartao.class, numeroCartao);
 
         //1
-        if (!cartao.getBloqueios().isEmpty()) {
-            Assertions.assertNotNull(!cartao.getBloqueios().isEmpty(), "Bug ao procurar bloqueios do cartão");
+        if (cartao.getStatusCartao() == StatusCartao.BLOQUEADO) {
+            Assertions.assertEquals(StatusCartao.BLOQUEADO, cartao.getBloqueios());
 
             logger.warn("Cartão já está bloqueado");
 
             return ResponseEntity.unprocessableEntity().build();
 
         }
-
         logger.info("Bloqueando cartão");
+
+        cartao.alteraStatusCartao(bloqueioSistemaExterno.bloqueiaCartao(cartao.getId(),
+                new BloqueioCartaoRequest("api-carol")));
+
         String ip = httpServletRequest.getRemoteAddr();
         String userAgent = httpServletRequest.getHeader("User-Agent");
 
+        //1
         Bloqueio bloqueio = new Bloqueio(cartao, ip, userAgent);
         em.persist(bloqueio);
 

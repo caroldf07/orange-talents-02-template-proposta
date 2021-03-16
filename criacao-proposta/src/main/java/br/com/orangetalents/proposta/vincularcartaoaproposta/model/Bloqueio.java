@@ -41,6 +41,13 @@ public class Bloqueio {
         this.userAgent = userAgent;
     }
 
+    /*
+     * Criado por conta do hibernate
+     * */
+    @Deprecated
+    public Bloqueio() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

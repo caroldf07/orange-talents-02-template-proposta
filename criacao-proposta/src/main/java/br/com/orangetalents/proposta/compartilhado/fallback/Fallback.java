@@ -3,6 +3,9 @@ package br.com.orangetalents.proposta.compartilhado.fallback;
 import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
 import br.com.orangetalents.proposta.analisarclientecartao.controller.AnaliseCliente;
 import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
+import br.com.orangetalents.proposta.bloquearcartao.controller.BloqueioSistemaExterno;
+import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
+import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoResponse;
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotNull;
 
 @Component
-public class Fallback implements AnaliseCliente, CartaoResource {
+public class Fallback implements AnaliseCliente, CartaoResource, BloqueioSistemaExterno {
 
     @Autowired
     private PropostaRepository propostaRepository;
@@ -38,5 +41,10 @@ public class Fallback implements AnaliseCliente, CartaoResource {
     @Override
     public CartaoResponse liberaCartao(AnaliseClienteRequest analiseClienteRequest) {
         throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de cartão indisponível no momento");
+    }
+
+    @Override
+    public BloqueioCartaoResponse bloqueiaCartao(String id, @NotNull BloqueioCartaoRequest bloqueioCartaoRequest) {
+        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de bloqueio indisponível no momento");
     }
 }

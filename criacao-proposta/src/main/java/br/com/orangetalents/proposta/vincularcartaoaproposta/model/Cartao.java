@@ -1,5 +1,7 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
+import br.com.orangetalents.proposta.bloquearcartao.controller.BloqueioSistemaExterno;
+import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoResponse;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
@@ -51,6 +53,13 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     private Set<Biometria> biometrias = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    private StatusCartao statusCartao;
+
+    @Autowired
+    @Transient
+    private BloqueioSistemaExterno bloqueioSistemaExterno;
+
     public Cartao(String id, LocalDateTime emitidoEm,
                   String titular, Set<BloqueioResponse> bloqueios,
                   Set<AvisoViagemResponse> avisos, Set<CarteiraDigitalResponse> carteiras,
@@ -65,6 +74,7 @@ public class Cartao {
         this.parcelas.addAll(parcelas.stream().map(parcela -> parcela.toModel()).collect(Collectors.toSet()));
         this.limite = limite;
         this.vencimento = vencimento.toModel();
+        this.statusCartao = StatusCartao.ATIVO;
         Assertions.assertNotNull(id, "Bug na criação do cartão");
     }
 
@@ -85,5 +95,17 @@ public class Cartao {
 
     public Set<Bloqueio> getBloqueios() {
         return bloqueios;
+    }
+
+    public StatusCartao getStatusCartao() {
+        return statusCartao;
+    }
+
+    public void alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
+        if (bloqueioCartaoResponse.equals(StatusCartao.BLOQUEADO)) {
+            Assertions.assertEquals(bloqueioCartaoResponse, StatusCartao.BLOQUEADO);
+            this.statusCartao = StatusCartao.BLOQUEADO;
+        }
+
     }
 }
