@@ -4,6 +4,7 @@ import br.com.orangetalents.proposta.criacaobiometria.model.Biometria;
 import br.com.orangetalents.proposta.criacaobiometria.model.CartaoBiometriaRequest;
 import br.com.orangetalents.proposta.criacaobiometria.model.NovaBiometriaRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
+import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,8 @@ public class NovaBiometriaController {
 
         //1
         if (cartao != null) {
+
+            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
             URI location = uriComponentsBuilder.path("/biometrias/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
                     .toUri();
@@ -65,6 +68,8 @@ public class NovaBiometriaController {
 
         //1
         if (cartao != null) {
+            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+
             logger.info("Cadastrando biometria");
 
             Biometria biometria = novaBiometriaRequest.toModel(cartao);

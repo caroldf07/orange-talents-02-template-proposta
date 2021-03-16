@@ -124,21 +124,7 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
-      
-  proposta:
-    image: 'carol/apiproposta'
-    ports:
-        - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-        SPRING_PROFILES_ACTIVE: "prod"
-        API_DATASOURCE_URL: "jdbc:postgresql://localhost:5432/criacao-proposta"
-        API_DATASOURCE_USERNAME: "admin"
-        API_DATASOURCE_PASSWORD: Pa55w0rd
-        API_DATASOURCE_DRIVER-CLASS-NAME: "org.postgresql.Driver"
-        API_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-
+ 
   vault:
     image: vault:1.5.3
     ports:
