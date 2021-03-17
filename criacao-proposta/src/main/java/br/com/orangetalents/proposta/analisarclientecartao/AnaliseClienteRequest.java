@@ -1,4 +1,4 @@
-package br.com.orangetalents.proposta.analisarclientecartao.view;
+package br.com.orangetalents.proposta.analisarclientecartao;
 
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package br.com.orangetalents.proposta.criarproposta.controller;
 
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
-import br.com.orangetalents.proposta.criarproposta.view.NovaPropostaRequest;
+import br.com.orangetalents.proposta.criarproposta.model.NovaPropostaRequest;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.Optional;
 
-//carga de 6
+//carga de 7
 @RestController
 @RequestMapping("/propostas")
 public class PropostaController {
@@ -35,6 +35,9 @@ public class PropostaController {
         logger.info("Início da criação da proposta");
 
         //1
+        Proposta proposta = novaPropostaRequest.toModel();
+
+        //1
         if (propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento())) {
 
             logger.warn("Proposta não foi criada");
@@ -47,10 +50,6 @@ public class PropostaController {
                             "Já existe proposta para esse documento"));
 
         }
-
-        //1
-        Proposta proposta = novaPropostaRequest.toModel();
-
         propostaRepository.save(proposta);
 
         logger.info("Proposta criada com sucesso, id: " + proposta.getId());

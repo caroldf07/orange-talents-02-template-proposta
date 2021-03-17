@@ -4,7 +4,7 @@ package br.com.orangetalents.proposta.avisarviagem.controller;
 import br.com.orangetalents.proposta.avisarviagem.view.NovaViagemRequest;
 import br.com.orangetalents.proposta.avisarviagem.view.ViagemCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
-import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.AvisoViagem;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Assertions;
@@ -75,7 +75,7 @@ public class ViagemController implements SelecionaCartao {
 
         //1
         if (cartao == null) {
-            Assertions.assertNull(cartao, "Bug ao procurar cartão");
+            Assertions.assertNull(cartao, "Bug no fluxo de encontrar cartão");
             logger.warn("Cartão não encontrado");
             return ResponseEntity.notFound().build();
         }
@@ -85,12 +85,12 @@ public class ViagemController implements SelecionaCartao {
         String ip = httpServletRequest.getRemoteAddr();
         String userAgent = httpServletRequest.getHeader("User-Agent");
 
+
         /*
          * Notificando sistema externo
          * */
-        avisoViagemSistemaExterno.avisoViagem(numeroCartao,
-                new ViagemCartaoRequest(novaViagemRequest.getDestino(),
-                        novaViagemRequest.getDataTermino()));
+        avisoViagemSistemaExterno.avisoViagem(numeroCartao, new ViagemCartaoRequest(novaViagemRequest.getDestino(),
+                novaViagemRequest.getDataTermino()));
 
         //1
         AvisoViagem viagem = novaViagemRequest.toModel(cartao, ip, userAgent);

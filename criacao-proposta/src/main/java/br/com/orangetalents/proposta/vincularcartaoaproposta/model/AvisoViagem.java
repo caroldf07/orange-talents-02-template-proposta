@@ -11,7 +11,7 @@ public class AvisoViagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private LocalDate validoAte;
     private String destino;
     @ManyToOne

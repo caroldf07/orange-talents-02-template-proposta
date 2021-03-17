@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-//Carga 4
+//Carga 5
 @Component
 public class NovoCartaoRequest {
 
+    //1
     private final Logger logger = LoggerFactory.getLogger(NovoCartaoRequest.class);
 
     //1
@@ -31,12 +32,10 @@ public class NovoCartaoRequest {
 
     @Scheduled(fixedDelayString = "${tempo.scheduled.cartao}")
     private void buscaProposta() {
-        logger.info("Procurando propostas elegíveis");
         propostasAprovadas = propostaRepository.findByStatusProposta(StatusProposta.ELEGIVEL);
 
         //1
         propostasAprovadas.forEach(proposta -> {
-            logger.info("Vinculando proposta a cartão");
             propostaCartao.vinculaCartaoProposta(proposta);
         });
 

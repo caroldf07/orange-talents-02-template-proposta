@@ -1,6 +1,6 @@
 package br.com.orangetalents.proposta.compartilhado.cartao;
 
-import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;

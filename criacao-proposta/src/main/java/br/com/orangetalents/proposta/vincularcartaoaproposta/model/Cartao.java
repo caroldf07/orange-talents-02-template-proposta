@@ -102,12 +102,8 @@ public class Cartao {
         return statusCartao;
     }
 
-    public void alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
-        Assertions.assertNotNull(bloqueioCartaoResponse, "Bug na integração");
-        if (bloqueioCartaoResponse.equals(StatusCartao.BLOQUEADO)) {
-            Assertions.assertEquals(bloqueioCartaoResponse, StatusCartao.BLOQUEADO);
-            this.statusCartao = StatusCartao.BLOQUEADO;
-        }
-
+    public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
+        Assertions.assertEquals(bloqueioCartaoResponse, "BLOQUEADO");
+        return this.statusCartao = StatusCartao.BLOQUEADO;
     }
 }

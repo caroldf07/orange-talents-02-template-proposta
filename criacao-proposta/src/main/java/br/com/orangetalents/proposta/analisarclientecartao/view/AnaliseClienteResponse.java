@@ -40,7 +40,7 @@ public class AnaliseClienteResponse {
         this.nome = nome;
         this.idProposta = idProposta;
         this.resultadoSolicitacao = resultadoSolicitacao;
-        Assertions.assertNotNull(resultadoSolicitacao, "Houve um erro no retorno da requisição da análise");
+        Assertions.assertNotNull(resultadoSolicitacao, "Houve no retorno da requisição da análise");
     }
 
     public AnaliseClienteResponse(StatusProposta statusProposta) {

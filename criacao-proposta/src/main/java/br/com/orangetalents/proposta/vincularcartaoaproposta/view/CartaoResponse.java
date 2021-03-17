@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.jackson.JsonComponent;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,7 +15,6 @@ import java.util.Set;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-@JsonComponent
 public class CartaoResponse {
 
     private final Logger logger = LoggerFactory.getLogger(CartaoResponse.class);

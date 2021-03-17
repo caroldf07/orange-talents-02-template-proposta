@@ -1,6 +1,6 @@
 package br.com.orangetalents.proposta.analisarclientecartao.controller;
 
-import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

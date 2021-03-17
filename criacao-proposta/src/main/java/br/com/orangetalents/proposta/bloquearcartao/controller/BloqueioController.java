@@ -1,13 +1,13 @@
 package br.com.orangetalents.proposta.bloquearcartao.controller;
 
 
+import br.com.orangetalents.proposta.bloquearcartao.repository.BloqueioRepository;
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.controller.NovaBiometriaController;
-import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Bloqueio;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import br.com.orangetalents.proposta.vincularcartaoaproposta.model.StatusCartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,19 +40,26 @@ public class BloqueioController implements SelecionaCartao {
     @Autowired
     private BloqueioSistemaExterno bloqueioSistemaExterno;
 
+    //1
+    private Bloqueio bloqueio;
+
+    //1
+    @Autowired
+    private BloqueioRepository bloqueioRepository;
+
     @Override
     @PostMapping
     public ResponseEntity<RedirectView> selecionaCartao(@RequestBody @Valid CartaoRequest cartaoRequest,
                                                         UriComponentsBuilder uriComponentsBuilder) {
 
 
-        //1
+        logger.info("Procurando cartão");
         Cartao cartao = em.find(Cartao.class, cartaoRequest.getNumeroCartao());
 
         //1
         if (cartao != null) {
-
             Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+
             URI location = uriComponentsBuilder.path("/bloqueios/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
                     .toUri();
@@ -76,13 +83,18 @@ public class BloqueioController implements SelecionaCartao {
     public ResponseEntity<?> bloqueia(@PathVariable("numeroCartao") String numeroCartao,
                                       HttpServletRequest httpServletRequest) {
 
+        logger.info("Procurando cartão");
         Cartao cartao = em.find(Cartao.class, numeroCartao);
+
+        logger.info("Verificando bloqueios");
+        bloqueio = bloqueioRepository.findByCartaoId(cartao.getId());
+
         String ip = httpServletRequest.getRemoteAddr();
         String userAgent = httpServletRequest.getHeader("User-Agent");
 
         //1
-        if (cartao.getStatusCartao() == StatusCartao.BLOQUEADO) {
-            Assertions.assertEquals(StatusCartao.BLOQUEADO, cartao.getBloqueios());
+        if (bloqueio != null) {
+            Assertions.assertNotNull(bloqueio, "Bug no bloqueio de cartão");
 
             logger.warn("Cartão já está bloqueado");
 
@@ -98,9 +110,9 @@ public class BloqueioController implements SelecionaCartao {
              * */
             cartao.alteraStatusCartao(bloqueioSistemaExterno.bloqueiaCartao(cartao.getId(),
                     new BloqueioCartaoRequest("api-carol")));
+            em.merge(cartao);
 
-            //1
-            Bloqueio bloqueio = new Bloqueio(cartao, ip, userAgent);
+            bloqueio = new Bloqueio(cartao, ip, userAgent);
             em.persist(bloqueio);
 
             cartao.getBloqueios().add(bloqueio);

@@ -5,14 +5,12 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.model.CarteiraDigit
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.jackson.JsonComponent;
 
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-@JsonComponent
 public class CarteiraDigitalResponse {
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);

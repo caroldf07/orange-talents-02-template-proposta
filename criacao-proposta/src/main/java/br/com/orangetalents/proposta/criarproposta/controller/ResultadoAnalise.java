@@ -9,10 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//Carga de 3
+//Carga de 4
 @Component
 public class ResultadoAnalise {
 
+    //1
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
     //1
