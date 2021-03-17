@@ -31,7 +31,7 @@ public class NovoCartaoRequest {
     private List<Proposta> propostasAprovadas = new ArrayList<>();
 
     @Scheduled(fixedDelayString = "${tempo.scheduled.cartao}")
-    private void buscaProposta() {
+    void buscaProposta() {
         propostasAprovadas = propostaRepository.findByStatusProposta(StatusProposta.ELEGIVEL);
 
         //1

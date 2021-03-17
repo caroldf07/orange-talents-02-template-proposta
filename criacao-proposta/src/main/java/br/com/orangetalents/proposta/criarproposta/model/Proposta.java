@@ -2,12 +2,12 @@ package br.com.orangetalents.proposta.criarproposta.model;
 
 import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
 import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
-import br.com.orangetalents.proposta.criarproposta.validacao.CpfCnpj;
 import br.com.orangetalents.proposta.criarproposta.view.PropostaConsultaResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -31,7 +31,6 @@ public class Proposta {
     @Email
     private String email;
 
-    @CpfCnpj
     @Column(unique = true)
     @NotBlank
     private String documento;
@@ -60,7 +59,8 @@ public class Proposta {
                     @NotNull Endereco endereco,
                     @NotNull @Positive BigDecimal salario) {
         this.email = email;
-        this.documento = documento;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+        this.documento = encoder.encode(documento);
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;

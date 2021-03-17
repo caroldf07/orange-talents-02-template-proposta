@@ -107,7 +107,7 @@ public class Cartao {
     }
 
     public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
-        Assertions.assertEquals("BLOQUEADO", bloqueioCartaoResponse);
+        Assertions.assertEquals("BLOQUEADO", bloqueioCartaoResponse.getResultado());
         return this.statusCartao = StatusCartao.BLOQUEADO;
     }
 
