@@ -26,7 +26,6 @@ public class CartaoResponse {
     @NotBlank
     private String titular;
     private Set<BloqueioResponse> bloqueios;
-    private Set<AvisoViagemResponse> avisos;
     private Set<CarteiraDigitalResponse> carteiras;
     private Set<ParcelaResponse> parcelas;
     private int limite;
@@ -39,7 +38,6 @@ public class CartaoResponse {
                           @NotBlank String emitidoEm,
                           @NotBlank String titular,
                           Set<BloqueioResponse> bloqueios,
-                          Set<AvisoViagemResponse> avisos,
                           Set<CarteiraDigitalResponse> carteiras,
                           Set<ParcelaResponse> parcelas,
                           int limite,
@@ -48,7 +46,6 @@ public class CartaoResponse {
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueios = bloqueios;
-        this.avisos = avisos;
         this.carteiras = carteiras;
         this.parcelas = parcelas;
         this.limite = limite;
@@ -60,7 +57,7 @@ public class CartaoResponse {
         logger.info("Convertendo infos do cartão");
 
         return new Cartao(this.id, LocalDateTime.parse(this.emitidoEm, ISO_LOCAL_DATE_TIME), this.titular,
-                this.bloqueios, this.avisos, this.carteiras, this.parcelas,
+                this.bloqueios, this.carteiras, this.parcelas,
                 new BigDecimal(this.limite), this.vencimento);
     }
 

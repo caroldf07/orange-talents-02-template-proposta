@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 
-//Carga de 6
+//Carga de 7
 @RestController
 @RequestMapping("/bloqueios")
 public class BloqueioController implements SelecionaCartao {
@@ -75,6 +75,8 @@ public class BloqueioController implements SelecionaCartao {
                                       HttpServletRequest httpServletRequest) {
 
         Cartao cartao = em.find(Cartao.class, numeroCartao);
+        String ip = httpServletRequest.getRemoteAddr();
+        String userAgent = httpServletRequest.getHeader("User-Agent");
 
         //1
         if (cartao.getStatusCartao() == StatusCartao.BLOQUEADO) {
@@ -84,23 +86,29 @@ public class BloqueioController implements SelecionaCartao {
 
             return ResponseEntity.unprocessableEntity().build();
 
+            //1
+        } else if (cartao != null) {
+            logger.info("Bloqueando cartão");
+
+            /*
+             * Notificando sistema externo e alterando status do cartão
+             * */
+            cartao.alteraStatusCartao(bloqueioSistemaExterno.bloqueiaCartao(cartao.getId(),
+                    new BloqueioCartaoRequest("api-carol")));
+
+            //1
+            Bloqueio bloqueio = new Bloqueio(cartao, ip, userAgent);
+            em.persist(bloqueio);
+
+            cartao.getBloqueios().add(bloqueio);
+            em.merge(cartao);
+
+            logger.info("Cartão bloqueado");
+            return ResponseEntity.ok().build();
         }
-        logger.info("Bloqueando cartão");
 
-        cartao.alteraStatusCartao(bloqueioSistemaExterno.bloqueiaCartao(cartao.getId(),
-                new BloqueioCartaoRequest("api-carol")));
+        logger.warn("Cartão não encontrado");
+        return ResponseEntity.notFound().build();
 
-        String ip = httpServletRequest.getRemoteAddr();
-        String userAgent = httpServletRequest.getHeader("User-Agent");
-
-        //1
-        Bloqueio bloqueio = new Bloqueio(cartao, ip, userAgent);
-        em.persist(bloqueio);
-
-        cartao.getBloqueios().add(bloqueio);
-        em.merge(cartao);
-
-        logger.info("Cartão bloqueado");
-        return ResponseEntity.ok().build();
     }
 }

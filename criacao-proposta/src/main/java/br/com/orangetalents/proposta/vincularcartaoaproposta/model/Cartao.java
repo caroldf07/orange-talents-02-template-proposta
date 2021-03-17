@@ -5,7 +5,10 @@ import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoResponse;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
-import br.com.orangetalents.proposta.vincularcartaoaproposta.view.*;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.view.BloqueioResponse;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CarteiraDigitalResponse;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.view.ParcelaResponse;
+import br.com.orangetalents.proposta.vincularcartaoaproposta.view.VencimentoResponse;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -61,15 +64,13 @@ public class Cartao {
     private BloqueioSistemaExterno bloqueioSistemaExterno;
 
     public Cartao(String id, LocalDateTime emitidoEm,
-                  String titular, Set<BloqueioResponse> bloqueios,
-                  Set<AvisoViagemResponse> avisos, Set<CarteiraDigitalResponse> carteiras,
+                  String titular, Set<BloqueioResponse> bloqueios, Set<CarteiraDigitalResponse> carteiras,
                   Set<ParcelaResponse> parcelas, BigDecimal limite,
                   VencimentoResponse vencimento) {
         this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.bloqueios.addAll(bloqueios.stream().map(bloqueio -> bloqueio.toModel()).collect(Collectors.toSet()));
-        this.avisos.addAll(avisos.stream().map(aviso -> aviso.toModel()).collect(Collectors.toSet()));
         this.carteiras.addAll(carteiras.stream().map(carteira -> carteira.toModel()).collect(Collectors.toSet()));
         this.parcelas.addAll(parcelas.stream().map(parcela -> parcela.toModel()).collect(Collectors.toSet()));
         this.limite = limite;
@@ -102,6 +103,7 @@ public class Cartao {
     }
 
     public void alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
+        Assertions.assertNotNull(bloqueioCartaoResponse, "Bug na integração");
         if (bloqueioCartaoResponse.equals(StatusCartao.BLOQUEADO)) {
             Assertions.assertEquals(bloqueioCartaoResponse, StatusCartao.BLOQUEADO);
             this.statusCartao = StatusCartao.BLOQUEADO;
