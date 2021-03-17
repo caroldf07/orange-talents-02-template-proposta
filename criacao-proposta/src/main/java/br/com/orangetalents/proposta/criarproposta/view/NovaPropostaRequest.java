@@ -1,6 +1,8 @@
-package br.com.orangetalents.proposta.criarproposta.model;
+package br.com.orangetalents.proposta.criarproposta.view;
 
+import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.validacao.CpfCnpj;
+import br.com.orangetalents.proposta.criarproposta.view.EnderecoRequest;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;

@@ -1,4 +1,4 @@
-package br.com.orangetalents.proposta.criarbiometria.model;
+package br.com.orangetalents.proposta.criarbiometria.view;
 
 import javax.validation.constraints.NotBlank;
 

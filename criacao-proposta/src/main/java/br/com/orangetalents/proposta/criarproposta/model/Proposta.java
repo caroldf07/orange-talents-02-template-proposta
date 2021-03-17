@@ -1,6 +1,6 @@
 package br.com.orangetalents.proposta.criarproposta.model;
 
-import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteRequest;
 import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.criarproposta.validacao.CpfCnpj;
 import br.com.orangetalents.proposta.criarproposta.view.PropostaConsultaResponse;
@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 public class Proposta {
@@ -25,7 +26,7 @@ public class Proposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @NotBlank
     @Email
@@ -77,7 +78,7 @@ public class Proposta {
     public Proposta() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -103,7 +104,9 @@ public class Proposta {
      * Retorno do resultado da análise
      * */
     public void resultadoAnalise(@Valid AnaliseClienteResponse analiseClienteResponse) {
+        logger.info("Recebendo retorno do sistema externo");
         this.statusProposta = analiseClienteResponse.getStatusProposta();
+        Assertions.assertNotNull(analiseClienteResponse, "Deu bug no sistema externo");
     }
 
     public StatusProposta getStatusProposta() {

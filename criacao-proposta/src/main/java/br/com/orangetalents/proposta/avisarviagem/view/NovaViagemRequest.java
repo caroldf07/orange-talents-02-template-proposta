@@ -3,6 +3,7 @@ package br.com.orangetalents.proposta.avisarviagem.view;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.AvisoViagem;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.boot.jackson.JsonComponent;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@JsonComponent
 public class NovaViagemRequest {
     @NotBlank
     private String destino;

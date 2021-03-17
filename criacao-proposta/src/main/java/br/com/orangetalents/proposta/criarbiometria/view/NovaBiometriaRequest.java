@@ -1,5 +1,6 @@
-package br.com.orangetalents.proposta.criarbiometria.model;
+package br.com.orangetalents.proposta.criarbiometria.view;
 
+import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 
 import javax.transaction.Transactional;

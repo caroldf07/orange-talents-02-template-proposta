@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.jackson.JsonComponent;
 
 import javax.validation.constraints.NotBlank;
 
-
+@JsonComponent
 public class BloqueioCartaoResponse {
 
     private final Logger logger = LoggerFactory.getLogger(BloqueioCartaoResponse.class);

@@ -40,7 +40,7 @@ public class AnaliseClienteResponse {
         this.nome = nome;
         this.idProposta = idProposta;
         this.resultadoSolicitacao = resultadoSolicitacao;
-        Assertions.assertNotNull(resultadoSolicitacao, "Houve no retorno da requisição da análise");
+        Assertions.assertNotNull(resultadoSolicitacao, "Houve um erro no retorno da requisição da análise");
     }
 
     public AnaliseClienteResponse(StatusProposta statusProposta) {
@@ -52,9 +52,10 @@ public class AnaliseClienteResponse {
      * */
     public StatusProposta getStatusProposta() {
         if (resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO) {
+            Assertions.assertTrue(resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO, "Bug na conversão do retorno da análise com a devolutiva");
+
             statusProposta = StatusProposta.ELEGIVEL;
 
-            Assertions.assertTrue(resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO, "Bug na conversão do retorno da análise com a devolutiva");
             return statusProposta;
         }
         statusProposta = StatusProposta.NAO_ELEGIVEL;

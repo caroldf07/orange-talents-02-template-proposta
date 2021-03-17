@@ -5,11 +5,13 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Vencimento;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.jackson.JsonComponent;
 
 import java.time.LocalDateTime;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
+@JsonComponent
 public class VencimentoResponse {
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);

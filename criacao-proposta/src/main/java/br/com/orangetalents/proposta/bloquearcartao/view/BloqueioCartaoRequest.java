@@ -4,13 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.jackson.JsonComponent;
 
+import javax.validation.constraints.NotBlank;
+
 @JsonComponent
 public class BloqueioCartaoRequest {
 
     private final Logger logger = LoggerFactory.getLogger(BloqueioCartaoRequest.class);
-    private String sistemaResponsavel = "api-carol";
 
-    public BloqueioCartaoRequest(String sistemaResponsavel) {
+    @NotBlank
+    private String sistemaResponsavel;
+
+    public BloqueioCartaoRequest(@NotBlank String sistemaResponsavel) {
         logger.info("Enviando sistema de solicitante: " + sistemaResponsavel);
 
         this.sistemaResponsavel = sistemaResponsavel;

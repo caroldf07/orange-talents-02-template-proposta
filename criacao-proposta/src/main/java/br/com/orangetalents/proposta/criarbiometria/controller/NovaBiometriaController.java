@@ -2,8 +2,8 @@ package br.com.orangetalents.proposta.criarbiometria.controller;
 
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
-import br.com.orangetalents.proposta.criarbiometria.model.NovaBiometriaRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.NovaBiometriaRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 
-//Carga de 3
+//Carga de 6
 @RestController
 @RequestMapping("/biometrias")
 public class NovaBiometriaController implements SelecionaCartao {
@@ -36,6 +36,7 @@ public class NovaBiometriaController implements SelecionaCartao {
                                                         UriComponentsBuilder uriComponentsBuilder) {
 
 
+        //1
         Cartao cartao = em.find(Cartao.class, cartaoRequest.getNumeroCartao());
 
         //1
@@ -73,6 +74,7 @@ public class NovaBiometriaController implements SelecionaCartao {
 
             logger.info("Cadastrando biometria");
 
+            //1
             Biometria biometria = novaBiometriaRequest.toModel(cartao);
             em.persist(biometria);
 

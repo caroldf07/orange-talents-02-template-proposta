@@ -4,7 +4,7 @@ package br.com.orangetalents.proposta.bloquearcartao.controller;
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.controller.NovaBiometriaController;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Bloqueio;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.StatusCartao;
@@ -36,6 +36,7 @@ public class BloqueioController implements SelecionaCartao {
     @PersistenceContext
     private EntityManager em;
 
+    //1
     @Autowired
     private BloqueioSistemaExterno bloqueioSistemaExterno;
 
@@ -45,6 +46,7 @@ public class BloqueioController implements SelecionaCartao {
                                                         UriComponentsBuilder uriComponentsBuilder) {
 
 
+        //1
         Cartao cartao = em.find(Cartao.class, cartaoRequest.getNumeroCartao());
 
         //1
@@ -88,6 +90,7 @@ public class BloqueioController implements SelecionaCartao {
 
             //1
         } else if (cartao != null) {
+            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
             logger.info("Bloqueando cartão");
 
             /*

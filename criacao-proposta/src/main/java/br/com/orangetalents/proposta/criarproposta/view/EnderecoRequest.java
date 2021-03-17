@@ -1,5 +1,6 @@
-package br.com.orangetalents.proposta.criarproposta.model;
+package br.com.orangetalents.proposta.criarproposta.view;
 
+import br.com.orangetalents.proposta.criarproposta.model.Endereco;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;

@@ -1,6 +1,6 @@
 package br.com.orangetalents.proposta.analisarclientecartao.controller;
 
-import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest;
+import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteRequest;
 import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.compartilhado.fallback.Fallback;
 import org.springframework.cloud.openfeign.FeignClient;

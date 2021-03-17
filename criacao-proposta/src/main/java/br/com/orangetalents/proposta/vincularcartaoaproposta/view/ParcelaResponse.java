@@ -5,9 +5,11 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Parcela;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.jackson.JsonComponent;
 
 import java.math.BigDecimal;
 
+@JsonComponent
 public class ParcelaResponse {
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);

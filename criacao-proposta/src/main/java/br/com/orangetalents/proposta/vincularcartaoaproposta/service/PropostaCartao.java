@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-//6
+//5
 @Service
 public class PropostaCartao {
 
-    //1
     private final Logger logger = LoggerFactory.getLogger(NovoCartaoRequest.class);
 
     //1
