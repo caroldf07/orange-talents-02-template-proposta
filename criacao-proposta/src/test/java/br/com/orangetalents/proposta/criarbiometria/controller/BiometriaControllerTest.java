@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureTestDatabase
 @Transactional
 @ActiveProfiles("test")
-class NovaBiometriaControllerTest {
+class BiometriaControllerTest {
 
     @Autowired
     MockMvc mockMvc;

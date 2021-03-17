@@ -23,9 +23,9 @@ import java.net.URI;
 //Carga de 3
 @RestController
 @RequestMapping("/biometrias")
-public class NovaBiometriaController implements SelecionaCartao {
+public class BiometriaController implements SelecionaCartao {
 
-    private final Logger logger = LoggerFactory.getLogger(NovaBiometriaController.class);
+    private final Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
     //1
     @PersistenceContext

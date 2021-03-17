@@ -4,7 +4,7 @@ package br.com.orangetalents.proposta.bloquearcartao.controller;
 import br.com.orangetalents.proposta.bloquearcartao.repository.BloqueioRepository;
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
-import br.com.orangetalents.proposta.criarbiometria.controller.NovaBiometriaController;
+import br.com.orangetalents.proposta.criarbiometria.controller.BiometriaController;
 import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Bloqueio;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
@@ -30,7 +30,7 @@ import java.net.URI;
 @RequestMapping("/bloqueios")
 public class BloqueioController implements SelecionaCartao {
 
-    private final Logger logger = LoggerFactory.getLogger(NovaBiometriaController.class);
+    private final Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
     //1
     @PersistenceContext

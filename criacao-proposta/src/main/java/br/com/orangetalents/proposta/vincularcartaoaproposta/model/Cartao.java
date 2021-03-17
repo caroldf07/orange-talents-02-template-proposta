@@ -3,6 +3,7 @@ package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 import br.com.orangetalents.proposta.bloquearcartao.controller.BloqueioSistemaExterno;
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoResponse;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
+import br.com.orangetalents.proposta.criarcarteira.model.Carteira;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.BloqueioResponse;
@@ -54,6 +55,9 @@ public class Cartao {
     private Proposta proposta;
 
     @OneToMany(mappedBy = "cartao")
+    private Set<Carteira> carteira;
+
+    @OneToMany(mappedBy = "cartao")
     private Set<Biometria> biometrias = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
@@ -103,7 +107,9 @@ public class Cartao {
     }
 
     public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
-        Assertions.assertEquals(bloqueioCartaoResponse, "BLOQUEADO");
+        Assertions.assertEquals("BLOQUEADO", bloqueioCartaoResponse);
         return this.statusCartao = StatusCartao.BLOQUEADO;
     }
+
+
 }
