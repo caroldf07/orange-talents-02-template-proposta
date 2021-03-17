@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -20,15 +21,19 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.net.URI;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Transactional
 @ActiveProfiles("test")
+@WithMockUser(username = "john")
 class PropostaControllerTest {
 
     @PersistenceContext
     EntityManager em;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -51,6 +56,7 @@ class PropostaControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post(uri)
+                .with(jwt().jwt(builder -> builder.subject("john")))
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
@@ -77,6 +83,7 @@ class PropostaControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post(uri)
+                .with(jwt().jwt(builder -> builder.subject("john")))
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers
@@ -87,6 +94,7 @@ class PropostaControllerTest {
 
     @Test
     @DisplayName("Deveria retornar 422 quando o documento já está cadastrado")
+    @Transactional
     void criar3() throws Exception {
 
         BigDecimal salario = new BigDecimal(1000.00);
@@ -113,6 +121,7 @@ class PropostaControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post(uri)
+                .with(jwt().jwt(builder -> builder.subject("john")))
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers

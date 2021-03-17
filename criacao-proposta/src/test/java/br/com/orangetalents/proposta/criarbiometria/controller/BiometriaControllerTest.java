@@ -3,7 +3,6 @@ package br.com.orangetalents.proposta.criarbiometria.controller;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,10 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
-
 import java.net.URI;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,7 +27,7 @@ class BiometriaControllerTest {
     MockMvc mockMvc;
 
     @Mock
-    Cartao cartao = Mockito.mock(Cartao.class);
+    Cartao cartao;
 
     @Test
     void criaBiometria() throws Exception {
@@ -43,8 +39,8 @@ class BiometriaControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post(location)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
         ).andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }
