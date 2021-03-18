@@ -4,12 +4,14 @@ import br.com.orangetalents.proposta.analisarclientecartao.ResultadoSolicitacao;
 import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnaliseClienteResponse {
 
@@ -40,7 +42,7 @@ public class AnaliseClienteResponse {
         this.nome = nome;
         this.idProposta = idProposta;
         this.resultadoSolicitacao = resultadoSolicitacao;
-        Assertions.assertNotNull(resultadoSolicitacao, "Houve no retorno da requisição da análise");
+        assertNotNull(resultadoSolicitacao, "Houve no retorno da requisição da análise");
     }
 
     public AnaliseClienteResponse(StatusProposta statusProposta) {
@@ -52,7 +54,7 @@ public class AnaliseClienteResponse {
      * */
     public StatusProposta getStatusProposta() {
         if (resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO) {
-            Assertions.assertTrue(resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO, "Bug na conversão do retorno da análise com a devolutiva");
+            assertTrue(resultadoSolicitacao == ResultadoSolicitacao.SEM_RESTRICAO, "Bug na conversão do retorno da análise com a devolutiva");
 
             statusProposta = StatusProposta.ELEGIVEL;
 

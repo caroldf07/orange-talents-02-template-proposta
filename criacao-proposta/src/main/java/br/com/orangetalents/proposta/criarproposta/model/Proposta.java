@@ -4,7 +4,6 @@ import br.com.orangetalents.proposta.analisarclientecartao.AnaliseClienteRequest
 import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.criarproposta.view.PropostaConsultaResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +15,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Entity
 public class Proposta {
@@ -24,8 +26,7 @@ public class Proposta {
     private final Logger logger = LoggerFactory.getLogger(Proposta.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     @NotBlank
     @Email
@@ -66,7 +67,7 @@ public class Proposta {
         this.salario = salario;
 
         logger.info("Verificando informações recebidas da proposta");
-        Assertions.assertNotNull(endereco, "Endereço veio inválido");
+        assertNotNull(endereco, "Endereço veio inválido");
 
     }
 
@@ -77,7 +78,7 @@ public class Proposta {
     public Proposta() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -96,7 +97,7 @@ public class Proposta {
     public AnaliseClienteRequest fromModelToRequest() {
         logger.info("Preparando cliente para envio");
         return new AnaliseClienteRequest(this.getDocumento(),
-                this.getNome(), this.getId().toString());
+                this.getNome(), this.getId());
     }
 
     /*
@@ -104,6 +105,7 @@ public class Proposta {
      * */
     public void resultadoAnalise(@Valid AnaliseClienteResponse analiseClienteResponse) {
         this.statusProposta = analiseClienteResponse.getStatusProposta();
+        assertNotNull(analiseClienteResponse, "Bug no retorno da análise do cliente");
     }
 
     public StatusProposta getStatusProposta() {

@@ -2,10 +2,9 @@ package br.com.orangetalents.proposta.criarbiometria.controller;
 
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
-import br.com.orangetalents.proposta.criarbiometria.model.NovaBiometriaRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.NovaBiometriaRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-//Carga de 3
+
+//Carga de 5
 @RestController
 @RequestMapping("/biometrias")
 public class BiometriaController implements SelecionaCartao {
@@ -42,7 +43,7 @@ public class BiometriaController implements SelecionaCartao {
         //1
         if (cartao != null) {
 
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
             URI location = uriComponentsBuilder.path("/biometrias/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
                     .toUri();
@@ -71,10 +72,11 @@ public class BiometriaController implements SelecionaCartao {
 
         //1
         if (cartao != null) {
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
 
             logger.info("Cadastrando biometria");
 
+            //1
             Biometria biometria = novaBiometriaRequest.toModel(cartao);
             em.persist(biometria);
 

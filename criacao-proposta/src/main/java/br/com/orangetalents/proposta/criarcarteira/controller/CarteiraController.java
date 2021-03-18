@@ -1,13 +1,12 @@
 package br.com.orangetalents.proposta.criarcarteira.controller;
 
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
 import br.com.orangetalents.proposta.criarcarteira.model.Carteira;
 import br.com.orangetalents.proposta.criarcarteira.repository.CarteiraRepository;
 import br.com.orangetalents.proposta.criarcarteira.view.NovaCarteiraRequest;
 import br.com.orangetalents.proposta.criarcarteira.view.NovaCarteiraResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,11 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-//Carga média de 7
+
+//Carga de 9 (refatorar)
 @RestController
 @RequestMapping("/carteiras")
 public class CarteiraController implements SelecionaCartao {
@@ -55,7 +57,7 @@ public class CarteiraController implements SelecionaCartao {
         //1
         if (cartao != null) {
 
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
             URI location = uriComponentsBuilder.path("/carteiras/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
                     .toUri();
@@ -84,14 +86,14 @@ public class CarteiraController implements SelecionaCartao {
 
         //1
         if (cartao == null) {
-            Assertions.assertNull(cartao, "Bug no fluxo de encontrar cartão");
+            assertNull(cartao, "Bug no fluxo de encontrar cartão");
             logger.warn("Cartão não encontrado");
             return ResponseEntity.notFound().build();
         }
 
         //1
         if (carteiraRepository.findByCarteiraAndCartaoId(novaCarteiraRequest.getCarteira(), cartao.getId()).isPresent()) {
-            Assertions.assertNotNull(carteiraRepository.findByCarteiraAndCartaoId(novaCarteiraRequest.getCarteira(), cartao.getId()),
+            assertNotNull(carteiraRepository.findByCarteiraAndCartaoId(novaCarteiraRequest.getCarteira(), cartao.getId()),
                     "Bug no fluxo de encontrar carteira");
             logger.warn("Carteira já cadastrada para esse cartão");
             return ResponseEntity.unprocessableEntity().body("Carteira já cadastrada para esse cartão");

@@ -5,10 +5,9 @@ import br.com.orangetalents.proposta.bloquearcartao.repository.BloqueioRepositor
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.controller.BiometriaController;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Bloqueio;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 //Carga de 7
@@ -58,7 +59,7 @@ public class BloqueioController implements SelecionaCartao {
 
         //1
         if (cartao != null) {
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
 
             URI location = uriComponentsBuilder.path("/bloqueios/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
@@ -94,7 +95,7 @@ public class BloqueioController implements SelecionaCartao {
 
         //1
         if (bloqueio != null) {
-            Assertions.assertNotNull(bloqueio, "Bug no bloqueio de cartão");
+            assertNotNull(bloqueio, "Bug no bloqueio de cartão");
 
             logger.warn("Cartão já está bloqueado");
 
@@ -102,7 +103,7 @@ public class BloqueioController implements SelecionaCartao {
 
             //1
         } else if (cartao != null) {
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
             logger.info("Bloqueando cartão");
 
             /*

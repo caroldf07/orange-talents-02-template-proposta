@@ -6,13 +6,14 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.controller.CartaoRe
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.repository.CartaoRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CartaoResponse;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //6
 @Service
@@ -37,7 +38,7 @@ public class PropostaCartao {
     public void vinculaCartaoProposta(Proposta proposta) {
         //1
         if (proposta.getCartao() == null) {
-            Assertions.assertTrue(proposta.getCartao() == null, "Bug ao vincular cartão com proposta");
+            assertTrue(proposta.getCartao() == null, "Bug ao vincular cartão com proposta");
 
             logger.info("Buscando cartão");
             //1

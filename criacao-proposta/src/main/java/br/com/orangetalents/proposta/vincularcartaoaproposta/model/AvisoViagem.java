@@ -1,6 +1,8 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,8 +12,7 @@ import java.util.UUID;
 public class AvisoViagem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id = UUID.randomUUID();
     private LocalDate validoAte;
     private String destino;
     @ManyToOne

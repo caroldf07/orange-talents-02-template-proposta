@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Bloqueio {
@@ -23,6 +22,9 @@ public class Bloqueio {
     private String ipCliente;
     private String userAgent;
 
+    /*
+     * Sistema externo
+     * */
     public Bloqueio(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
         this.id = id;
         this.bloqueadoEm = bloqueadoEm;
@@ -30,10 +32,12 @@ public class Bloqueio {
         this.ativo = ativo;
     }
 
+    /*
+     * Nosso sistema
+     * */
     public Bloqueio(@Valid @NotNull Cartao cartao,
                     @NotBlank String ipCliente,
                     @NotBlank String userAgent) {
-        this.id = UUID.randomUUID().toString();
         this.bloqueadoEm = LocalDateTime.now();
         this.sistemaResponsavel = "api-carol";
         this.cartao = cartao;

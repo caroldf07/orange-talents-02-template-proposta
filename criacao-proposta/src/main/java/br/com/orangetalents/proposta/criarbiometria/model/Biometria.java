@@ -3,19 +3,21 @@ package br.com.orangetalents.proposta.criarbiometria.model;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.UUID;
 
 @Entity
 public class Biometria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime associadaEm = LocalDateTime.now();
@@ -33,7 +35,7 @@ public class Biometria {
         this.cartao = cartao;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

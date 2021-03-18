@@ -1,11 +1,12 @@
 package br.com.orangetalents.proposta.avisarviagem.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ViagemCartaoRequest {
 
@@ -19,8 +20,8 @@ public class ViagemCartaoRequest {
         logger.info("Enviando informações para sistema externo");
         this.destino = destino;
         this.validoAte = validoAte;
-        Assertions.assertNotNull(destino, "Bug ao enviar informações para o sistema externo");
-        Assertions.assertNotNull(validoAte, "Bug ao enviar informações para o sistema externo");
+        assertNotNull(destino, "Bug ao enviar informações para o sistema externo");
+        assertNotNull(validoAte, "Bug ao enviar informações para o sistema externo");
     }
 
     public String getDestino() {

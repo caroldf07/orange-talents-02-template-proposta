@@ -33,6 +33,18 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
+      
+  mariadb:
+    image: 'mariadb/server:10.5'    
+    volumes:
+      - postgres-volume:/var/lib/mariadb/data
+    ports:
+      - 3308:3308
+    environment:
+      - MARIADB_USER=root
+      - MARIADB_ROOT_PASSWORD=ajudazupper2021
+      - MARIADB_DATABASE=criacao_proposta
+
 
   keycloak:
     image: jboss/keycloak
@@ -92,6 +104,20 @@ services:
       LOG_LEVEL: INFO
       KAFKA_HOST: "kafka:29092"
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      
+  propostas:
+    image: 'carol/apiproposta'
+    ports:
+        - 8080:8080
+    depends_on:
+        - mariadb
+    environment:
+        SPRING_PROFILES_ACTIVE: 'prod'
+        API_DATASOURCE_URL: 'jdbc:mariadb://mariadb:3308/criacao_proposta'
+        API_DATASOURCE_USERNAME: 'root'
+        API_DATASOURCE_PASSWORD: 'ajudazupper2021'
+        API_DATASOURCE_DRIVER-CLASS-NAME: 'org.mariadb.jdbc.Driver'
+        API_JPA_PROPERTIES_HIBERNATE_DIALECT: 'org.hibernate.dialect.MariaDBDialect'
 
   jaeger:
     image: jaegertracing/all-in-one
@@ -139,3 +165,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mariadb-volume:

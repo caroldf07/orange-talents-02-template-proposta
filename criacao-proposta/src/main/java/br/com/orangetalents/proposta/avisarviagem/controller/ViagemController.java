@@ -4,10 +4,9 @@ package br.com.orangetalents.proposta.avisarviagem.controller;
 import br.com.orangetalents.proposta.avisarviagem.view.NovaViagemRequest;
 import br.com.orangetalents.proposta.avisarviagem.view.ViagemCartaoRequest;
 import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
-import br.com.orangetalents.proposta.criarbiometria.model.CartaoRequest;
+import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.AvisoViagem;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 //Carga de 6
@@ -47,7 +49,7 @@ public class ViagemController implements SelecionaCartao {
         //1
         if (cartao != null) {
 
-            Assertions.assertNotNull(cartao, "Bug ao procurar cartão");
+            assertNotNull(cartao, "Bug ao procurar cartão");
             URI location = uriComponentsBuilder.path("/viagens/{numeroCartao}")
                     .buildAndExpand(cartao.getId())
                     .toUri();
@@ -75,7 +77,7 @@ public class ViagemController implements SelecionaCartao {
 
         //1
         if (cartao == null) {
-            Assertions.assertNull(cartao, "Bug no fluxo de encontrar cartão");
+            assertNull(cartao, "Bug no fluxo de encontrar cartão");
             logger.warn("Cartão não encontrado");
             return ResponseEntity.notFound().build();
         }

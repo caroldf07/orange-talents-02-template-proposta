@@ -1,10 +1,9 @@
 package br.com.orangetalents.proposta.criarproposta.controller;
 
 import br.com.orangetalents.proposta.compartilhado.exceptionhandler.ApiExceptionGenerico;
-import br.com.orangetalents.proposta.criarproposta.model.NovaPropostaRequest;
+import br.com.orangetalents.proposta.criarproposta.view.NovaPropostaRequest;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //carga de 7
 @RestController
@@ -42,7 +44,7 @@ public class PropostaController {
 
             logger.warn("Proposta não foi criada");
 
-            Assertions.assertTrue(propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento()),
+            assertTrue(propostaRepository.existsByDocumento(novaPropostaRequest.getDocumento()),
                     "Proposta que ainda não existe caiu no fluxo errado");
 
             return ResponseEntity.unprocessableEntity()
@@ -71,7 +73,7 @@ public class PropostaController {
 
         //1
         if (proposta.isPresent()) {
-            Assertions.assertNotNull(proposta, "Bug ao consultar proposta");
+            assertNotNull(proposta, "Bug ao consultar proposta");
             logger.info("Proposta encontrada");
             return ResponseEntity.ok(proposta.get().fromModelToPropostaConsulta());
         }

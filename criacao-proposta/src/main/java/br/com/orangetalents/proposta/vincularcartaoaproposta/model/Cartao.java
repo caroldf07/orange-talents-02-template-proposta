@@ -10,7 +10,6 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.view.BloqueioRespon
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CarteiraDigitalResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.ParcelaResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.VencimentoResponse;
-import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -20,6 +19,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Entity
 public class Cartao {
@@ -80,7 +82,7 @@ public class Cartao {
         this.limite = limite;
         this.vencimento = vencimento.toModel();
         this.statusCartao = StatusCartao.ATIVO;
-        Assertions.assertNotNull(id, "Bug na criação do cartão");
+        assertNotNull(id, "Bug na criação do cartão");
     }
 
     /*
@@ -107,7 +109,7 @@ public class Cartao {
     }
 
     public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
-        Assertions.assertEquals("BLOQUEADO", bloqueioCartaoResponse.getResultado());
+        assertEquals("BLOQUEADO", bloqueioCartaoResponse.getResultado());
         return this.statusCartao = StatusCartao.BLOQUEADO;
     }
 

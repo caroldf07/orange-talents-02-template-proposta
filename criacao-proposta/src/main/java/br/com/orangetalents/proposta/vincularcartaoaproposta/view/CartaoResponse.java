@@ -3,7 +3,6 @@ package br.com.orangetalents.proposta.vincularcartaoaproposta.view;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CartaoResponse {
 
@@ -50,7 +50,7 @@ public class CartaoResponse {
         this.parcelas = parcelas;
         this.limite = limite;
         this.vencimento = vencimento;
-        Assertions.assertNotNull(id, "Bug no retorno do sistema de cartão");
+        assertNotNull(id, "Bug no retorno do sistema de cartão");
     }
 
     public Cartao toModel() {

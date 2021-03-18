@@ -1,11 +1,12 @@
 package br.com.orangetalents.proposta.analisarclientecartao;
 
-import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.jackson.JsonComponent;
 
 import javax.validation.constraints.NotBlank;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @JsonComponent
 public class AnaliseClienteRequest {
@@ -27,9 +28,9 @@ public class AnaliseClienteRequest {
         this.documento = documento;
         this.nome = nome;
         this.idProposta = idProposta;
-        Assertions.assertNotNull(documento, "Bug com o envio do documento");
-        Assertions.assertNotNull(nome, "Bug com o envio do nome do cliente");
-        Assertions.assertNotNull(idProposta, "Bug com o envio do id da Proposta");
+        assertNotNull(documento, "Bug com o envio do documento");
+        assertNotNull(nome, "Bug com o envio do nome do cliente");
+        assertNotNull(idProposta, "Bug com o envio do id da Proposta");
     }
 
 

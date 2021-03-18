@@ -7,7 +7,7 @@ public class CartaoRequest {
     @NotBlank
     private String numeroCartao;
 
-    public CartaoRequest(String numeroCartao) {
+    public CartaoRequest(@NotBlank String numeroCartao) {
         this.numeroCartao = numeroCartao;
     }
 
