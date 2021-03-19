@@ -1,26 +1,29 @@
 package br.com.orangetalents.proposta.criarproposta.controller;
 
-import br.com.orangetalents.proposta.criarproposta.model.Endereco;
-import br.com.orangetalents.proposta.criarproposta.model.Proposta;
+import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.net.URI;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 @SpringBootTest
@@ -31,8 +34,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 @WithMockUser(username = "john")
 class PropostaControllerTest {
 
-    @PersistenceContext
-    EntityManager em;
+    @InjectMocks
+    private PropostaRepository propostaRepository = Mockito.mock(PropostaRepository.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -97,36 +100,17 @@ class PropostaControllerTest {
     @Transactional
     void criar3() throws Exception {
 
-        BigDecimal salario = new BigDecimal(1000.00);
+        when(propostaRepository.existsByDocumento(anyString())).thenReturn(true);
+        ResponseEntity<Object> esperado = ResponseEntity.unprocessableEntity().build();
+        ResponseEntity<Object> resultado = null;
 
-        Proposta proposta = new Proposta("email@email.com", "82762480981", "John",
-                new Endereco("ac", "Cidade", "endereço", "numero"),
-                salario);
+        boolean proposta = propostaRepository.existsByDocumento(anyString());
 
-        em.persist(proposta);
+        if (proposta) {
+            resultado = ResponseEntity.unprocessableEntity().build();
+        }
 
-        URI uri = new URI("/propostas/nova-proposta");
-        String json = "{\n" +
-                "\t\"documento\":\"82762480981\",\n" +
-                "\t\"email\":\"email@email.com\",\n" +
-                "\t\"nome\":\"John\",\n" +
-                "\t\"endereco\":{\n" +
-                "\t\t\"UF\":\"ac\",\n" +
-                "\t\t\"cidade\":\"Cidade\",\n" +
-                "\t\t\"logradouro\":\"endereço\",\n" +
-                "\t\t\"complemento\":\"numero\"\n" +
-                "\t},\n" +
-                "\t\"salario\":\"1000.00\"\n" +
-                "}";
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
-                .with(jwt().jwt(builder -> builder.subject("john")))
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers
-                        .status().isUnprocessableEntity());
-
+        assertThat(resultado, Matchers.equalToObject(esperado));
 
     }
 

@@ -1,9 +1,7 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.service;
 
-import br.com.orangetalents.proposta.analisarclientecartao.view.AnaliseClienteResponse;
 import br.com.orangetalents.proposta.criarproposta.model.Endereco;
 import br.com.orangetalents.proposta.criarproposta.model.Proposta;
-import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,13 +22,6 @@ class PropostaCartaoTest {
                 null));
     }
 
-    static Stream<Arguments> gerador2() {
-        return Stream.of(Arguments.of(new Proposta("email@email", "12345678901",
-                        "Teste", new Endereco("SP", "São Paulo",
-                        "Rua ali da esquina", "01"), BigDecimal.TEN),
-                StatusProposta.ELEGIVEL));
-    }
-
     @DisplayName("O cartão deve ser nulo")
     @ParameterizedTest
     @MethodSource("gerador1")
@@ -39,13 +30,4 @@ class PropostaCartaoTest {
         Assertions.assertEquals(proposta.getCartao(), cartao);
     }
 
-    @DisplayName("O cartão não deve ser nulo")
-    @ParameterizedTest
-    @MethodSource("gerador1")
-    void vinculaCartaoProposta2(Proposta proposta, String cartao) {
-
-        proposta.resultadoAnalise(new AnaliseClienteResponse(StatusProposta.ELEGIVEL));
-
-        Assertions.assertEquals(proposta.getCartao(), cartao);
-    }
 }
