@@ -38,13 +38,14 @@ services:
     image: 'mariadb/server:10.5'
     restart: 'always'
     volumes:
-      - postgres-volume:/var/lib/mariadb/data
+      - mariadb-volume:/var/lib/mariadb/data
     ports:
-      - 3333:3333
+      - 3333:3306
     environment:
       - MARIADB_ROOT_PASSWORD=ajudazupper2021
       - MARIADB_DATABASE=criacao_proposta
-
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
 
   keycloak:
     image: jboss/keycloak
@@ -106,18 +107,18 @@ services:
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
       
   propostas:
-    image: 'carol/apiproposta'
+    image: 'caroldf07/proposta'
     ports:
       - 8080:8080
     depends_on:
-        - mariadb
+      - mariadb
     environment:
-      - SPRING_PROFILES_ACTIVE:'prod'
-      - API_DATASOURCE_URL:'jdbc:mariadb://127.0.0.1:3333/criacao_proposta'
-      - API_DATASOURCE_USERNAME:'root'
-      - API_DATASOURCE_PASSWORD:'ajudazupper2021'
-      - API_DATASOURCE_DRIVER-CLASS-NAME:'org.mariadb.jdbc.Driver'
-      - API_JPA_PROPERTIES_HIBERNATE_DIALECT:'org.hibernate.dialect.MariaDBDialect'
+      SPRING_PROFILES_ACTIVE: "prod"
+      API_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/criacao_proposta
+      API_DATASOURCE_USERNAME: root
+      API_DATASOURCE_PASSWORD: ajudazupper2021
+      API_DATASOURCE_DRIVER-CLASS-NAME: org.mariadb.jdbc.Driver
+      API_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MariaDBDialect
 
   jaeger:
     image: jaegertracing/all-in-one
