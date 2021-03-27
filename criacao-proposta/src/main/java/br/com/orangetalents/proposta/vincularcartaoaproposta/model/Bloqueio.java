@@ -46,6 +46,20 @@ public class Bloqueio {
     }
 
     /*
+     * Nosso sistema - testes
+     * */
+    public Bloqueio(@NotBlank String id, @Valid @NotNull Cartao cartao,
+                    @NotBlank String ipCliente,
+                    @NotBlank String userAgent) {
+        this.id = id;
+        this.bloqueadoEm = LocalDateTime.now();
+        this.sistemaResponsavel = "api-carol";
+        this.cartao = cartao;
+        this.ipCliente = ipCliente;
+        this.userAgent = userAgent;
+    }
+
+    /*
      * Criado por conta do hibernate
      * */
     @Deprecated
@@ -63,5 +77,9 @@ public class Bloqueio {
     @Override
     public int hashCode() {
         return Objects.hash(id, sistemaResponsavel);
+    }
+
+    public String getId() {
+        return id;
     }
 }
