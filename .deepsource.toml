@@ -1,11 +1,9 @@
 version = 1
 
-[[analyzers]]
-name = "test-coverage"
-enabled = true
+test_patterns = ["test/**"]
 
 [[analyzers]]
-name = "secrets"
+name = "test-coverage"
 enabled = true
 
 [[analyzers]]
@@ -13,7 +11,7 @@ name = "sql"
 enabled = true
 
 [[analyzers]]
-name = "docker"
+name = "secrets"
 enabled = true
 
 [[analyzers]]
@@ -22,3 +20,14 @@ enabled = true
 
   [analyzers.meta]
   runtime_version = "11"
+
+[[analyzers]]
+name = "docker"
+enabled = true
+
+  [analyzers.meta]
+  dockerfile_paths = ["/"]
+
+[[transformers]]
+name = "google-java-format"
+enabled = true
