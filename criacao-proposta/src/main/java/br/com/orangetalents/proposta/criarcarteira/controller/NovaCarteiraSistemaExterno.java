@@ -9,9 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(url = "${sistema.cartao.conta.resource}", name = "cartao-carteiras", fallback = Fallback.class)
+@FeignClient(
+    url = "${sistema.cartao.conta.resource}",
+    name = "cartao-carteiras",
+    fallback = Fallback.class)
 public interface NovaCarteiraSistemaExterno {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/api/cartoes/{id}/carteiras", consumes = "application/json", produces = "application/json")
-    NovaCarteiraResponse novaCarteira(@PathVariable("id") String id, @RequestBody NovaCarteiraRequest novaCarteiraRequest);
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/api/cartoes/{id}/carteiras",
+      consumes = "application/json",
+      produces = "application/json")
+  NovaCarteiraResponse novaCarteira(
+      @PathVariable("id") String id, @RequestBody NovaCarteiraRequest novaCarteiraRequest);
 }

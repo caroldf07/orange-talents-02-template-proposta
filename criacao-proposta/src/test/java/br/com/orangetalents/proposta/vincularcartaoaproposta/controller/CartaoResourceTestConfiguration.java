@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Bean;
 @TestConfiguration
 public class CartaoResourceTestConfiguration {
 
-    @Autowired
-    private WireMockServer wireMockServer;
+  @Autowired private WireMockServer wireMockServer;
 
-    @Bean(initMethod = "start", destroyMethod = "stop")
-    public WireMockServer setUpServer() {
-        return new WireMockServer(5000);
-    }
+  @Bean(initMethod = "start", destroyMethod = "stop")
+  public WireMockServer setUpServer() {
+    return new WireMockServer(5000);
+  }
 }
