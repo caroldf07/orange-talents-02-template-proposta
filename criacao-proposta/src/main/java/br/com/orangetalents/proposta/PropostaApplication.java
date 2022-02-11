@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-
 @SpringBootApplication
 @EnableFeignClients
 @EnableCaching
@@ -15,8 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 public class PropostaApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PropostaApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(PropostaApplication.class, args);
+  }
 }

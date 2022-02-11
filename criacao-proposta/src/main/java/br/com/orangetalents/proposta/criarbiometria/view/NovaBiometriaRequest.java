@@ -2,30 +2,27 @@ package br.com.orangetalents.proposta.criarbiometria.view;
 
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
-
 import javax.validation.constraints.NotBlank;
 
 public class NovaBiometriaRequest {
 
-    @NotBlank
-    private String biometria;
+  @NotBlank private String biometria;
 
-    public NovaBiometriaRequest(@NotBlank String biometria) {
-        this.biometria = biometria;
-    }
+  public NovaBiometriaRequest(@NotBlank String biometria) {
+    this.biometria = biometria;
+  }
 
-    /*
-     * Criado por conta do Jackson
-     * */
-    @Deprecated
-    public NovaBiometriaRequest() {
-    }
+  /*
+   * Criado por conta do Jackson
+   * */
+  @Deprecated
+  public NovaBiometriaRequest() {}
 
-    public Biometria toModel(Cartao cartao) {
-        return new Biometria(this.biometria, cartao);
-    }
+  public Biometria toModel(Cartao cartao) {
+    return new Biometria(this.biometria, cartao);
+  }
 
-    public String getBiometria() {
-        return biometria;
-    }
+  public String getBiometria() {
+    return biometria;
+  }
 }
