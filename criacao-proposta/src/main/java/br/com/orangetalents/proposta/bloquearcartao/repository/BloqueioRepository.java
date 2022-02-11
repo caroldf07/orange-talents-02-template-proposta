@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BloqueioRepository extends JpaRepository<Bloqueio, String> {
-    Bloqueio findByCartaoId(String id);
+  Bloqueio findByCartaoId(String id);
 }

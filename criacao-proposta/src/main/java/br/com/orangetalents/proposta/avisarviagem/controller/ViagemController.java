@@ -1,5 +1,7 @@
 package br.com.orangetalents.proposta.avisarviagem.controller;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import br.com.orangetalents.proposta.avisarviagem.view.NovaViagemRequest;
 import br.com.orangetalents.proposta.avisarviagem.view.ViagemCartaoRequest;
@@ -7,6 +9,12 @@ import br.com.orangetalents.proposta.compartilhado.cartao.SelecionaCartao;
 import br.com.orangetalents.proposta.criarbiometria.view.CartaoRequest;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.AvisoViagem;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.model.Cartao;
+import java.net.URI;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,92 +23,84 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.net.URI;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-
-//Carga de 6
+// Carga de 6
 @RestController
 @RequestMapping("/viagens")
 public class ViagemController implements SelecionaCartao {
 
-    private final Logger logger = LoggerFactory.getLogger(ViagemController.class);
+  private final Logger logger = LoggerFactory.getLogger(ViagemController.class);
 
-    //1
-    @PersistenceContext
-    private EntityManager em;
+  // 1
+  @PersistenceContext private EntityManager em;
 
-    //1
-    @Autowired
-    private AvisoViagemSistemaExterno avisoViagemSistemaExterno;
+  // 1
+  @Autowired private AvisoViagemSistemaExterno avisoViagemSistemaExterno;
 
-    @Override
-    @PostMapping
-    public ResponseEntity<RedirectView> selecionaCartao(@Valid CartaoRequest cartaoRequest, UriComponentsBuilder uriComponentsBuilder) {
-        Cartao cartao = em.find(Cartao.class, cartaoRequest.getNumeroCartao());
+  @Override
+  @PostMapping
+  public ResponseEntity<RedirectView> selecionaCartao(
+      @Valid CartaoRequest cartaoRequest, UriComponentsBuilder uriComponentsBuilder) {
+    Cartao cartao = em.find(Cartao.class, cartaoRequest.getNumeroCartao());
 
-        //1
-        if (cartao != null) {
+    // 1
+    if (cartao != null) {
 
-            assertNotNull(cartao, "Bug ao procurar cartão");
-            URI location = uriComponentsBuilder.path("/viagens/{numeroCartao}")
-                    .buildAndExpand(cartao.getId())
-                    .toUri();
+      assertNotNull(cartao, "Bug ao procurar cartão");
+      URI location =
+          uriComponentsBuilder
+              .path("/viagens/{numeroCartao}")
+              .buildAndExpand(cartao.getId())
+              .toUri();
 
-            logger.info("Redirecionando para registro de nova viagem");
-            return ResponseEntity.status(302).body(new RedirectView("redirect: " + location));
-        }
-
-        logger.warn("Cartão não encontrado");
-        return ResponseEntity.notFound().build();
+      logger.info("Redirecionando para registro de nova viagem");
+      return ResponseEntity.status(302).body(new RedirectView("redirect: " + location));
     }
 
-    @Override
-    @GetMapping("/{numeroCartao}")
-    public ResponseEntity<?> cartaoSelecionado() {
-        return ResponseEntity.ok().build();
+    logger.warn("Cartão não encontrado");
+    return ResponseEntity.notFound().build();
+  }
+
+  @Override
+  @GetMapping("/{numeroCartao}")
+  public ResponseEntity<?> cartaoSelecionado() {
+    return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/{numeroCartao}")
+  @Transactional
+  public ResponseEntity<?> cria(
+      @PathVariable("numeroCartao") String numeroCartao,
+      HttpServletRequest httpServletRequest,
+      @RequestBody @Valid NovaViagemRequest novaViagemRequest) {
+
+    Cartao cartao = em.find(Cartao.class, numeroCartao);
+
+    // 1
+    if (cartao == null) {
+      assertNull(cartao, "Bug no fluxo de encontrar cartão");
+      logger.warn("Cartão não encontrado");
+      return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{numeroCartao}")
-    @Transactional
-    public ResponseEntity<?> cria(@PathVariable("numeroCartao") String numeroCartao,
-                                  HttpServletRequest httpServletRequest, @RequestBody @Valid NovaViagemRequest novaViagemRequest) {
+    logger.info("Cadastrando nova viagem");
 
-        Cartao cartao = em.find(Cartao.class, numeroCartao);
+    String ip = httpServletRequest.getRemoteAddr();
+    String userAgent = httpServletRequest.getHeader("User-Agent");
 
-        //1
-        if (cartao == null) {
-            assertNull(cartao, "Bug no fluxo de encontrar cartão");
-            logger.warn("Cartão não encontrado");
-            return ResponseEntity.notFound().build();
-        }
+    /*
+     * Notificando sistema externo
+     * */
+    avisoViagemSistemaExterno.avisoViagem(
+        numeroCartao,
+        new ViagemCartaoRequest(
+            novaViagemRequest.getDestino(), novaViagemRequest.getDataTermino()));
 
-        logger.info("Cadastrando nova viagem");
+    // 1
+    AvisoViagem viagem = novaViagemRequest.toModel(cartao, ip, userAgent);
 
-        String ip = httpServletRequest.getRemoteAddr();
-        String userAgent = httpServletRequest.getHeader("User-Agent");
+    em.persist(viagem);
 
-
-        /*
-         * Notificando sistema externo
-         * */
-        avisoViagemSistemaExterno.avisoViagem(numeroCartao, new ViagemCartaoRequest(novaViagemRequest.getDestino(),
-                novaViagemRequest.getDataTermino()));
-
-        //1
-        AvisoViagem viagem = novaViagemRequest.toModel(cartao, ip, userAgent);
-
-        em.persist(viagem);
-
-        logger.info("Aviso cadastrado");
-        return ResponseEntity.ok().build();
-    }
-
+    logger.info("Aviso cadastrado");
+    return ResponseEntity.ok().build();
+  }
 }
