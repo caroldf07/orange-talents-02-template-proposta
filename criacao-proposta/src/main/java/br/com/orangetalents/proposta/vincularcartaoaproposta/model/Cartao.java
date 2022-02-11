@@ -1,5 +1,8 @@
 package br.com.orangetalents.proposta.vincularcartaoaproposta.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import br.com.orangetalents.proposta.bloquearcartao.controller.BloqueioSistemaExterno;
 import br.com.orangetalents.proposta.bloquearcartao.view.BloqueioCartaoResponse;
 import br.com.orangetalents.proposta.criarbiometria.model.Biometria;
@@ -10,108 +13,101 @@ import br.com.orangetalents.proposta.vincularcartaoaproposta.view.BloqueioRespon
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CarteiraDigitalResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.ParcelaResponse;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.VencimentoResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Cartao {
 
-    @Transient
-    @Autowired
-    private PropostaRepository propostaRepository;
+  @Transient @Autowired private PropostaRepository propostaRepository;
 
-    @Id
-    @NotBlank
-    private String id;
-    private LocalDateTime emitidoEm;
-    private String titular;
+  @Id @NotBlank private String id;
+  private LocalDateTime emitidoEm;
+  private String titular;
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<Bloqueio> bloqueios = new HashSet<>();
+  @OneToMany(mappedBy = "cartao")
+  private Set<Bloqueio> bloqueios = new HashSet<>();
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<AvisoViagem> avisos = new HashSet<>();
+  @OneToMany(mappedBy = "cartao")
+  private Set<AvisoViagem> avisos = new HashSet<>();
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<CarteiraDigital> carteiras = new HashSet<>();
+  @OneToMany(mappedBy = "cartao")
+  private Set<CarteiraDigital> carteiras = new HashSet<>();
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<Parcela> parcelas = new HashSet<>();
+  @OneToMany(mappedBy = "cartao")
+  private Set<Parcela> parcelas = new HashSet<>();
 
-    private BigDecimal limite;
+  private BigDecimal limite;
 
-    @Embedded
-    private Vencimento vencimento;
+  @Embedded private Vencimento vencimento;
 
-    @OneToOne
-    private Proposta proposta;
+  @OneToOne private Proposta proposta;
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<Carteira> carteira;
+  @OneToMany(mappedBy = "cartao")
+  private Set<Carteira> carteira;
 
-    @OneToMany(mappedBy = "cartao")
-    private Set<Biometria> biometrias = new HashSet<>();
+  @OneToMany(mappedBy = "cartao")
+  private Set<Biometria> biometrias = new HashSet<>();
 
-    @Enumerated(EnumType.STRING)
-    private StatusCartao statusCartao;
+  @Enumerated(EnumType.STRING)
+  private StatusCartao statusCartao;
 
-    @Autowired
-    @Transient
-    private BloqueioSistemaExterno bloqueioSistemaExterno;
+  @Autowired @Transient private BloqueioSistemaExterno bloqueioSistemaExterno;
 
-    public Cartao(String id, LocalDateTime emitidoEm,
-                  String titular, Set<BloqueioResponse> bloqueios, Set<CarteiraDigitalResponse> carteiras,
-                  Set<ParcelaResponse> parcelas, BigDecimal limite,
-                  VencimentoResponse vencimento) {
-        this.id = id;
-        this.emitidoEm = emitidoEm;
-        this.titular = titular;
-        this.bloqueios.addAll(bloqueios.stream().map(bloqueio -> bloqueio.toModel()).collect(Collectors.toSet()));
-        this.carteiras.addAll(carteiras.stream().map(carteira -> carteira.toModel()).collect(Collectors.toSet()));
-        this.parcelas.addAll(parcelas.stream().map(parcela -> parcela.toModel()).collect(Collectors.toSet()));
-        this.limite = limite;
-        this.vencimento = vencimento.toModel();
-        this.statusCartao = StatusCartao.ATIVO;
-        assertNotNull(id, "Bug na criação do cartão");
-    }
+  public Cartao(
+      String id,
+      LocalDateTime emitidoEm,
+      String titular,
+      Set<BloqueioResponse> bloqueios,
+      Set<CarteiraDigitalResponse> carteiras,
+      Set<ParcelaResponse> parcelas,
+      BigDecimal limite,
+      VencimentoResponse vencimento) {
+    this.id = id;
+    this.emitidoEm = emitidoEm;
+    this.titular = titular;
+    this.bloqueios.addAll(
+        bloqueios.stream().map(bloqueio -> bloqueio.toModel()).collect(Collectors.toSet()));
+    this.carteiras.addAll(
+        carteiras.stream().map(carteira -> carteira.toModel()).collect(Collectors.toSet()));
+    this.parcelas.addAll(
+        parcelas.stream().map(parcela -> parcela.toModel()).collect(Collectors.toSet()));
+    this.limite = limite;
+    this.vencimento = vencimento.toModel();
+    this.statusCartao = StatusCartao.ATIVO;
+    assertNotNull(id, "Bug na criação do cartão");
+  }
 
-    /*
-     * Criado por conta do hibernate
-     * */
-    @Deprecated
-    public Cartao() {
-    }
+  /*
+   * Criado por conta do hibernate
+   * */
+  @Deprecated
+  public Cartao() {}
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void propostaCriada(Proposta proposta) {
-        this.proposta = proposta;
-    }
+  public void propostaCriada(Proposta proposta) {
+    this.proposta = proposta;
+  }
 
-    public Set<Bloqueio> getBloqueios() {
-        return bloqueios;
-    }
+  public Set<Bloqueio> getBloqueios() {
+    return bloqueios;
+  }
 
-    public StatusCartao getStatusCartao() {
-        return statusCartao;
-    }
+  public StatusCartao getStatusCartao() {
+    return statusCartao;
+  }
 
-    public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
-        assertEquals("BLOQUEADO", bloqueioCartaoResponse.getResultado());
-        return this.statusCartao = StatusCartao.BLOQUEADO;
-    }
-
-
+  public StatusCartao alteraStatusCartao(BloqueioCartaoResponse bloqueioCartaoResponse) {
+    assertEquals("BLOQUEADO", bloqueioCartaoResponse.getResultado());
+    return this.statusCartao = StatusCartao.BLOQUEADO;
+  }
 }
