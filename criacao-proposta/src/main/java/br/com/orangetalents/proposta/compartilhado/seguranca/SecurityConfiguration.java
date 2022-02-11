@@ -12,24 +12,27 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                .authorizeRequests().antMatchers(HttpMethod.GET).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(getJwtAuthenticationConverter());
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors()
+        .and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.GET)
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .oauth2ResourceServer()
+        .jwt()
+        .jwtAuthenticationConverter(getJwtAuthenticationConverter());
+  }
 
-    JwtAuthenticationConverter getJwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
-        converter.setAuthoritiesClaimName("authorities");
-        converter.setAuthorityPrefix("");
-        JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
-        authenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
-        return authenticationConverter;
-    }
+  JwtAuthenticationConverter getJwtAuthenticationConverter() {
+    JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
+    converter.setAuthoritiesClaimName("authorities");
+    converter.setAuthorityPrefix("");
+    JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
+    authenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
+    return authenticationConverter;
+  }
 }

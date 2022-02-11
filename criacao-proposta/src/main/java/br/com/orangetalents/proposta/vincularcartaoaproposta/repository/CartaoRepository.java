@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartaoRepository extends JpaRepository<Cartao, String> {
-    Cartao findByIdAndStatusCartao(String id, StatusCartao bloqueado);
+  Cartao findByIdAndStatusCartao(String id, StatusCartao bloqueado);
 }

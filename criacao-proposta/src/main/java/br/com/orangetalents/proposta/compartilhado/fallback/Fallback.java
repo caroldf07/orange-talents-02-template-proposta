@@ -18,49 +18,60 @@ import br.com.orangetalents.proposta.criarproposta.model.StatusProposta;
 import br.com.orangetalents.proposta.criarproposta.repository.PropostaRepository;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.controller.CartaoResource;
 import br.com.orangetalents.proposta.vincularcartaoaproposta.view.CartaoResponse;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
-
 @Component
-public class Fallback implements AnaliseCliente, CartaoResource, BloqueioSistemaExterno, AvisoViagemSistemaExterno, NovaCarteiraSistemaExterno {
+public class Fallback
+    implements AnaliseCliente,
+        CartaoResource,
+        BloqueioSistemaExterno,
+        AvisoViagemSistemaExterno,
+        NovaCarteiraSistemaExterno {
 
-    @Autowired
-    private PropostaRepository propostaRepository;
+  @Autowired private PropostaRepository propostaRepository;
 
-    @Override
-    public AnaliseClienteResponse analiseLiberacaoCartao(@NotNull AnaliseClienteRequest analiseClienteRequest) {
+  @Override
+  public AnaliseClienteResponse analiseLiberacaoCartao(
+      @NotNull AnaliseClienteRequest analiseClienteRequest) {
 
-        /*
-         * Persistindo no banco de dados pois o Fallback quebra o fluxo
-         * */
-        Proposta proposta = propostaRepository.findByDocumento(analiseClienteRequest.getDocumento());
+    /*
+     * Persistindo no banco de dados pois o Fallback quebra o fluxo
+     * */
+    Proposta proposta = propostaRepository.findByDocumento(analiseClienteRequest.getDocumento());
 
-        proposta.resultadoAnalise(new AnaliseClienteResponse(StatusProposta.NAO_ELEGIVEL));
-        propostaRepository.save(proposta);
+    proposta.resultadoAnalise(new AnaliseClienteResponse(StatusProposta.NAO_ELEGIVEL));
+    propostaRepository.save(proposta);
 
-        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de análise indisponível no momento");
-    }
+    throw new ApiExceptionGenerico(
+        HttpStatus.SERVICE_UNAVAILABLE, "Serviço de análise indisponível no momento");
+  }
 
-    @Override
-    public CartaoResponse liberaCartao(AnaliseClienteRequest analiseClienteRequest) {
-        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de cartão indisponível no momento");
-    }
+  @Override
+  public CartaoResponse liberaCartao(AnaliseClienteRequest analiseClienteRequest) {
+    throw new ApiExceptionGenerico(
+        HttpStatus.SERVICE_UNAVAILABLE, "Serviço de cartão indisponível no momento");
+  }
 
-    @Override
-    public BloqueioCartaoResponse bloqueiaCartao(String id, @NotNull BloqueioCartaoRequest bloqueioCartaoRequest) {
-        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de bloqueio indisponível no momento");
-    }
+  @Override
+  public BloqueioCartaoResponse bloqueiaCartao(
+      String id, @NotNull BloqueioCartaoRequest bloqueioCartaoRequest) {
+    throw new ApiExceptionGenerico(
+        HttpStatus.SERVICE_UNAVAILABLE, "Serviço de bloqueio indisponível no momento");
+  }
 
-    @Override
-    public ViagemCartaoResponse avisoViagem(String id, @NotNull ViagemCartaoRequest viagemCartaoRequest) {
-        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de aviso de viagem indisponível no momento");
-    }
+  @Override
+  public ViagemCartaoResponse avisoViagem(
+      String id, @NotNull ViagemCartaoRequest viagemCartaoRequest) {
+    throw new ApiExceptionGenerico(
+        HttpStatus.SERVICE_UNAVAILABLE, "Serviço de aviso de viagem indisponível no momento");
+  }
 
-    @Override
-    public NovaCarteiraResponse novaCarteira(String id, NovaCarteiraRequest novaCarteiraRequest) {
-        throw new ApiExceptionGenerico(HttpStatus.SERVICE_UNAVAILABLE, "Serviço de carteira indisponível no momento");
-    }
+  @Override
+  public NovaCarteiraResponse novaCarteira(String id, NovaCarteiraRequest novaCarteiraRequest) {
+    throw new ApiExceptionGenerico(
+        HttpStatus.SERVICE_UNAVAILABLE, "Serviço de carteira indisponível no momento");
+  }
 }
