@@ -9,32 +9,30 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//Carga de 4
+// Carga de 4
 @Component
 public class ResultadoAnalise {
 
-    //1
-    private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
+  // 1
+  private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
-    //1
-    @Autowired
-    private PropostaRepository propostaRepository;
+  // 1
+  @Autowired private PropostaRepository propostaRepository;
 
-    //1
-    @Autowired
-    private AnaliseCliente analiseCliente;
+  // 1
+  @Autowired private AnaliseCliente analiseCliente;
 
-    public void resultadoAnalise(Proposta proposta) {
+  public void resultadoAnalise(Proposta proposta) {
 
-        logger.info("Cliente foi para análise");
+    logger.info("Cliente foi para análise");
 
-        //1
-        AnaliseClienteResponse analiseClienteResponse = analiseCliente.analiseLiberacaoCartao(proposta.fromModelToRequest());
-        logger.info("Retorno da análise");
+    // 1
+    AnaliseClienteResponse analiseClienteResponse =
+        analiseCliente.analiseLiberacaoCartao(proposta.fromModelToRequest());
+    logger.info("Retorno da análise");
 
-        proposta.resultadoAnalise(analiseClienteResponse);
-        propostaRepository.save(proposta);
-        logger.info("Proposta atualizada");
-
-    }
+    proposta.resultadoAnalise(analiseClienteResponse);
+    propostaRepository.save(proposta);
+    logger.info("Proposta atualizada");
+  }
 }
